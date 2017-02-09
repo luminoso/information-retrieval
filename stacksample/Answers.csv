@@ -1,0 +1,1000 @@
+Id,OwnerUserId,CreationDate,ParentId,Score,Body
+92,61,2008-08-01T14:45:37Z,90,13,"<p><a href=""http://svnbook.red-bean.com/"">Version Control with Subversion</a></p>
+
+<p>A very good resource for source control in general. Not really TortoiseSVN specific, though.</p>"
+124,26,2008-08-01T16:09:47Z,80,12,"<p>I wound up using this. It is a kind of a hack, but it actually works pretty well. The only thing is you have to be very careful with your semicolons. : D</p>
+
+<pre><code>var strSql:String = stream.readUTFBytes(stream.bytesAvailable);      
+var i:Number = 0;
+var strSqlSplit:Array = strSql.split("";"");
+for (i = 0; i &lt; strSqlSplit.length; i++){
+    NonQuery(strSqlSplit[i].toString());
+}
+</code></pre>
+"
+199,50,2008-08-01T19:36:46Z,180,1,"<p>I've read somewhere the human eye can't distinguish between less than 4 values apart. so This is something to keep in mind. The following algorithm does not compensate for this.</p>
+
+<p>I'm not sure this is exactly what you want, but this is one way to randomly generate non-repeating color values:</p>
+
+<p>(beware, inconsistent pseudo-code ahead)</p>
+
+<pre><code>//colors entered as 0-255 [R, G, B]<br>colors = []; //holds final colors to be used<br>rand = new Random();<br><br>//assumes n is less than 16,777,216<br>randomGen(int n){<br>   while (len(colors) &lt; n){<br>      //generate a random number between 0,255 for each color<br>      newRed = rand.next(256);<br>      newGreen = rand.next(256);<br>      newBlue = rand.next(256);<br>      temp = [newRed, newGreen, newBlue];<br>      //only adds new colors to the array<br>      if temp not in colors {<br>         colors.append(temp);<br>      }<br>   }<br>}<br></code></pre>
+
+<p>One way you could optimize this for better visibility would be to compare the distance between each new color and all the colors in the array:</p>
+
+<pre><code>for item in color{<br>   itemSq = (item[0]^2 + item[1]^2 + item[2]^2])^(.5);<br>   tempSq = (temp[0]^2 + temp[1]^2 + temp[2]^2])^(.5);<br>   dist = itemSq - tempSq;<br>   dist = abs(dist);<br>}<br>//NUMBER can be your chosen distance apart.<br>if dist &lt; NUMBER and temp not in colors {<br>   colors.append(temp);<br>}<br></code></pre>
+
+<p>But this approach would significantly slow down your algorithm.</p>
+
+<p>Another way would be to scrap the randomness and systematically go through every 4 values and add a color to an array in the above example.</p>"
+269,91,2008-08-01T23:49:57Z,260,4,"<p>Yes, I thought about that, but I soon figured out that another Domain-Specific-Language (DSL) would be a bit too much.</p>
+
+<p>Essentially, they need to interact with my gamestate in possibly unpredictable ways. For example, a card could have a rule ""When this cards enter play, all your undead minions gain +3 attack against flying enemies, except when the enemy is blessed"". As trading card games are turn based, the GameState Manager will fire OnStageX events and let the cards modify other cards or the GameState in whatever way the card needs.</p>
+
+<p>If I try to create a DSL, I have to implement a rather large feature set and possibly constantly update it, which shifts the maintenance work to another part without actually removing it.</p>
+
+<p>That's why I wanted to stay with a ""real"" .NET language to essentially be able to just fire the event and let the card manipulate the gamestate in whatever way (within the limits of the code access security).</p>
+"
+307,49,2008-08-02T01:49:46Z,260,28,"<p><a href=""http://www.codeproject.com/Articles/8656/C-Script-The-Missing-Puzzle-Piece"">Oleg Shilo's C# Script solution (at The Code Project</a>) really is a great introduction to providing script abilities in your application.</p>
+
+<p>A different approach would be to consider a language that is specifically built for scripting, such as <a href=""http://en.wikipedia.org/wiki/IronRuby"">IronRuby</a>, <a href=""http://en.wikipedia.org/wiki/IronPython"">IronPython</a>, or <a href=""http://en.wikipedia.org/wiki/Lua_%28programming_language%29"">Lua</a>.</p>
+
+<p>IronPython and IronRuby are both available today.</p>
+
+<p>For a guide to embedding IronPython read
+<a href=""http://blogs.msdn.com/b/jmstall/archive/2005/09/01/howto-embed-ironpython.aspx"">How to embed IronPython script support in your existing app in 10 easy steps</a>.</p>
+
+<p>Lua is a scripting language commonly used in games. There is a Lua compiler for .NET, available from CodePlex -- <a href=""http://www.codeplex.com/Nua"">http://www.codeplex.com/Nua</a></p>
+
+<p>That codebase is a great read if you want to learn about building a compiler in .NET.</p>
+
+<p>A different angle altogether is to try <a href=""http://en.wikipedia.org/wiki/Windows_PowerShell"">PowerShell</a>. There are numerous examples of embedding PowerShell into an application -- here's a thorough project on the topic: 
+<a href=""http://code.msdn.microsoft.com/PowerShellTunnel/Wiki/View.aspx?title=PowerShellTunnel%20Reference"">Powershell Tunnel</a></p>
+"
+332,59,2008-08-02T03:00:24Z,330,19,"<p>I would be a bit reluctant to use nested classes here.  What if you created an abstract base class for a ""multimedia driver"" to handle the back-end stuff (workhorse), and a separate class for the front-end work?  The front-end class could take a pointer/reference to an implemented driver class (for the appropriate media type and situation) and perform the abstract operations on the workhorse structure.</p>
+
+<p>My philosophy would be to go ahead and make both structures accessible to the client in a polished way, just under the assumption they would be used in tandem.</p>
+
+<p>I would reference something like a <a href=""http://qt-project.org/doc/qt-4.8/qtextdocument.html"">QTextDocument</a> in Qt.  You provide a direct interface to the bare metal data handling, but pass the authority along to an object like a QTextEdit to do the manipulation.</p>
+"
+344,100,2008-08-02T04:18:15Z,260,6,"<p>You might be able to use IronRuby for that. </p>
+
+<p>Otherwise I'd suggest you have a directory where you place precompiled assemblies. Then you could have a reference in the DB to the assembly and class, and use reflection to load the proper assemblies at runtime.</p>
+
+<p>If you really want to compile at run-time you could use the CodeDOM, then you could use reflection to load the dynamic assembly. <a href=""http://msdn.microsoft.com/en-us/library/microsoft.csharp.csharpcodeprovider.aspx"">MSDN article which might help</a>.</p>"
+359,119,2008-08-02T06:16:23Z,260,5,"<P>You could use any of the DLR languages, which provide a way to really easily host your own scripting platform. However, you don't have to use a scripting language for this. You could use C# and compile it with the C# code provider. As long as you load it in its own AppDomain, you can load and unload it to your heart's content.</P>"
+473,49,2008-08-02T15:33:13Z,470,8,"<p>No, what you're doing is fine. Don't let those people confuse you.</p>
+
+<p>If you've written the web services with .net then the reference proxies generated by .net are going to be quite suitable. The situation you describe (where you are both producer and consumer) is the ideal situation.</p>
+
+<p>If you need to connect to a web services that is <em>unknown</em> at compile time, then you would want a more dynamic approach, where you deduce the 'shape' of the web service. </p>
+
+<p>But start by using the auto generated proxy class, and don't worry about it until you hit a limitation. And when you do -- come back to stack overflow ;-)</p>"
+529,86,2008-08-02T18:16:07Z,180,3,"<p>Isn't it also a factor which order you set up the colors?</p>
+
+<p>Like if you use Dillie-Os idea you need to mix the colors as much as possible. 
+0 64 128 256 is from one to the next. but 0 256 64 128 in a wheel would be more ""apart""</p>
+
+<p>Does this make sense?</p>"
+539,157,2008-08-02T19:03:52Z,180,21,"<p>My first thought on this is ""how generate N vectors in a space that maximize distance from each other."" You can see that the RGB (or any other scale you use that forms a basis in color space) are just vectors. Take a look at <a href=""http://mathworld.wolfram.com/topics/RandomPointPicking.html"">Random Point Picking</a>. Hope this is a good start for you! Once you have a set of vectors that are maximized a part, you can save them in a hash table or something for later, and just perform random rotations on them to get all the colors you desire that are maximally apart from each other!</p>
+
+<p><strong>Edit:</strong> Thinking about this problem more, it would be better to map the colors in a linear manor, possibly (0,0,0) --> (255,255,255) lexicographically, and then distribute them evenly. I really don't know how well this will work, but it should since, lets say:</p>
+
+<p>n = 10
+we know we have 16777216 colors (256^3). We can use <a href=""http://stackoverflow.com/questions/561/using-combinations-of-sets-as-test-data#794"">buckles algorithm 515</a> to find the lexicographically indexed color.<img src=""http://i.stack.imgur.com/gEuCs.gif"" alt=""\frac {\binom {256^3} {3}} {n} * i"">. You'll probably have to edit the algorithm to avoid overflow and probably add some minor speed improvements.</p>
+"
+585,149,2008-08-02T23:40:04Z,580,13,"<p>For my projects I alternate between SQL Compare from REd Gate and the Database Publishing Wizard from Microsoft which you can download free
+<a href=""http://www.microsoft.com/downloads/details.aspx?familyid=56E5B1C5-BF17-42E0-A410-371A838E570A&amp;displaylang=en"">here</a>.</p>
+
+<p>The Wizard isn't as slick as SQL Compare or SQL Data Compare but it does the trick. One issue is that the scripts it generates may need some rearranging and/or editing to flow in one shot.</p>
+
+<p>On the up side, it can move your schema and data which isn't bad for a free tool.</p>"
+586,34,2008-08-02T23:51:09Z,580,17,"<p>I've taken to hand-coding all of my DDL (creates/alter/delete) statements, adding them to my .sln as text files, and using normal versioning (using subversion, but any revision control should work). This way, I not only get the benefit of versioning, but updating live from dev/stage is the same process for code and database - tags, branches and so on work all the same.</p>
+
+<p>Otherwise, I agree redgate is expensive if you don't have a company buying it for you. If you can get a company to buy it for you though, it really is worth it!</p>"
+590,116,2008-08-03T00:22:03Z,580,2,"<p>If you have a company buying it, Toad from Quest Software has this kind of management functionality built in.  It's basically a two-click operation to compare two schemas and generate a sync script from one to the other.</p>
+
+<p>They have editions for most of the popular databases, including of course Sql Server.</p>"
+591,111,2008-08-03T00:37:03Z,580,3,"<p>I work the same way Karl does, by keeping all of my SQL scripts for creating and altering tables in a text file that I keep in source control.  In fact, to avoid the problem of having to have a script examine the live database to determine what ALTERs to run, I usually work like this:</p>
+
+<ul>
+<li>On the first version, I place everything during testing into one SQL script, and treat all tables as a CREATE.  This means I end up dropping and readding tables a lot during testing, but that's not a big deal early into the project (since I'm usually hacking the data I'm using at that point anyway).</li>
+<li>On all subsequent versions, I do two things: I make a new text file to hold the upgrade SQL scripts, that contain just the ALTERs for that version.  And I make the changes to the original, create a fresh database script as well.  This way an upgrade just runs the upgrade script, but if we have to recreate the DB we don't need to run 100 scripts to get there.</li>
+<li>Depending on how I'm deploying the DB changes, I'll also usually put a version table in the DB that holds the version of the DB.  Then, rather than make any human decisions about which scripts to run, whatever code I have running the create/upgrade scripts uses the version to determine what to run.</li>
+</ul>
+
+<p>The one thing this will not do is help if part of what you're moving from test to production is data, but if you want to manage structure and not pay for a nice, but expensive DB management package, is really not very difficult.  I've also found it's a pretty good way of keeping mental track of your DB.</p>"
+597,76,2008-08-03T01:38:02Z,580,1,"<p>I agree that scripting everything is the best way to go and is what I advocate at work.  You should script everything from DB and object creation to populating your lookup tables.</p>
+
+<p>Anything you do in UI only won't translate (especially for changes... not so much for first deployments) and will end up requiring a tools like what Redgate offers.</p>"
+655,91,2008-08-03T11:41:38Z,650,69,"<p>With the ""Built in"" stuff, you can't, as using 1.0.* or 1.0.0.* will replace the revision and build numbers with a coded date/timestamp, which is usually also a good way. </p>
+
+<p>For more info, see the <a href=""http://msdn2.microsoft.com/en-us/library/c405shex%28vs.80%29.aspx"">Assembly Linker</a> Documentation in the /v tag.</p>
+
+<p>As for automatically incrementing numbers, use the AssemblyInfo Task:</p>
+
+<p><a href=""http://code.msdn.microsoft.com/AssemblyInfoTaskvers"">AssemblyInfo Task</a></p>
+
+<p>This can be configured to automatically increment the build number.</p>
+
+<p>There are 2 Gotchas:</p>
+
+<ol>
+<li>Each of the 4 numbers in the Version string is limited to 65535. This is a Windows Limitation and unlikely to get fixed.
+<ul>
+<li><a href=""http://blogs.msdn.com/msbuild/archive/2007/01/03/why-are-build-numbers-limited-to-65535.aspx"">Why are build numbers limited to 65535?</a></li>
+</ul></li>
+<li>Using with with Subversion requires a small change:
+<ul>
+<li><a href=""http://www.andrewconnell.com/blog/archive/2006/08/29/4078.aspx"">Using MSBuild to generate assembly version info at build time (including SubVersion fix)</a></li>
+</ul></li>
+</ol>
+
+<p>Retrieving the Version number is then quite easy:</p>
+
+<pre><code>Version v = Assembly.GetExecutingAssembly().GetName().Version;
+string About = string.Format(CultureInfo.InvariantCulture, @""YourApp Version {0}.{1}.{2} (r{3})"", v.Major, v.Minor, v.Build, v.Revision);
+</code></pre>
+
+<hr>
+
+<p>And, to clarify: In .net or at least in C#, the build is actually the THIRD number, not the fourth one as some people (for example Delphi Developers who are used to Major.Minor.Release.Build) might expect.</p>
+
+<p>In .net, it's Major.Minor.Build.Revision.</p>
+"
+787,175,2008-08-03T18:46:33Z,650,4,"<p>What source control system are you using? </p>
+
+<p>Almost all of them have some form of $ Id $ tag that gets expanded when the file is checked in.</p>
+
+<p>I usually use some form of hackery to display this as the version number.</p>
+
+<p>The other alternative is use to use the date as the build number: 080803-1448</p>"
+818,233,2008-08-03T20:45:27Z,810,0,"<p>I'm partway to my solution with this entry on MSDN (don't know how I couldn't find it before).</p>
+
+<p>User/Machine Hive<br>
+Subkeys and values entered under this hive will be installed under the HKEY_CURRENT_USER hive when a user chooses ""Just Me"" or the HKEY_USERS hive or when a user chooses ""Everyone"" during installation.</p>
+
+<p><a href=""http://msdn.microsoft.com/en-us/library/x6kd89c5%28VS.80%29.aspx"" rel=""nofollow"">Registry Editor</a></p>
+"
+820,91,2008-08-03T20:48:47Z,810,3,"<p>First: Yes, this is something that belongs in the Application for the exact reson you specified: What happens after new user profiles are created? Sure, if you're using a domain it's possible to have some stuff put in the registry on creation, but this is not really a use case. The Application should check if there are seetings and use the default settings if not.</p>
+
+<p>That being said, it IS possible to change other users Keys through the HKEY_USERS Hive.</p>
+
+<p>I have no experience with the Visual Studio 2003 Setup Project, so here is a bit of (totally unrelated) VBScript code that might just give you an idea where to look:</p>
+
+<pre><code>const HKEY_USERS = &amp;H80000003<br>strComputer = "".""<br>Set objReg=GetObject(""winmgmts:{impersonationLevel=impersonate}!\\"" &amp; strComputer &amp; ""\root\default:StdRegProv"")<br>strKeyPath = """"<br>objReg.EnumKey HKEY_USERS, strKeyPath, arrSubKeys<br>strKeyPath = ""\Software\Microsoft\Windows\CurrentVersion\WinTrust\Trust Providers\Software Publishing""<br>For Each subkey In arrSubKeys<br>    objReg.SetDWORDValue HKEY_USERS, subkey &amp; strKeyPath, ""State"", 146944<br>Next<br></code></pre>
+
+<p>(Code Courtesy of <a href=""http://jritmeijer.spaces.live.com/blog/cns%218A48A27460FB898A%21965.entry"" rel=""nofollow"">Jeroen Ritmeijer</a>)</p>"
+829,234,2008-08-03T21:17:33Z,810,4,"<p>I'm guessing that because you want to set it for all users, that you're on some kind of shared computer, which is probably running under a domain?</p>
+
+<p><strong>HERE BE DRAGONS</strong></p>
+
+<p>Let's say Joe and Jane regularly log onto the computer, then they will each have 'registries'.</p>
+
+<p>You'll then install your app, and the installer will employ giant hacks and disgusting things to set items under HKCU for them.</p>
+
+<p>THEN, bob will come along and log on (he, and 500 other people have accounts in the domain and so can do this). He's never used this computer before, so he has no registry. The first time he logs in, windows creates him one, but he won't have your setting. </p>
+
+<p>Your app then falls over or behaves incorrectly, and bob complains loudly about those crappy products from raynixon incorporated.</p>
+
+<p>The correct answer is to just have some default settings in your app, which can write them to the registry if it doesn't find them. It's general good practice that your app should never depend on the registry, and should create things as needed, for any registry entry, not just HKCU, anyway</p>"
+870,233,2008-08-03T22:34:06Z,810,0,"<p>Despite what the <a href=""http://msdn.microsoft.com/en-us/library/x6kd89c5%28VS.80%29.aspx"" rel=""nofollow"">MSDN article</a>  says about User/Machine Hive, it doesn't write to HKEY_USERS. Rather it writes to HKCU if you select Just Me and HKLM if you select Everyone.</p>
+
+<p>So my solution is going to be to use the User/Machine Hive, and then in the application it checks if the registry entries are in HKCU and if not, copies them from HKLM. I know this probably isn't the most ideal way of doing it, but it has the least amount of changes.</p>"
+940,243,2008-08-04T01:07:14Z,930,15,"<p>Very roughly and from memory since I don't have code on this laptop:</p>
+
+<pre><code>using (OleDBConnection conn = new OleDbConnection())
+{
+  conn.ConnectionString = ""Whatever connection string"";
+
+  using (OleDbCommand cmd = new OleDbCommand())
+  {
+    cmd.Connection = conn;
+    cmd.CommandText = ""Select * from CoolTable"";
+
+    using (OleDbDataReader dr = cmd.ExecuteReader())
+    {
+      while (dr.Read())
+      {
+        // do something like Console.WriteLine(dr[""column name""] as String);
+      }
+    }
+  }
+}
+</code></pre>
+"
+951,49,2008-08-04T01:31:31Z,930,26,"<p>@Goyuix -- that's excellent for something written from memory.
+tested it here -- found the connection wasn't opened. Otherwise very nice.</p>
+
+<pre><code>using System.Data.OleDb;
+...
+
+using (OleDbConnection conn = new OleDbConnection())
+{
+    conn.ConnectionString = ""Provider=sqloledb;Data Source=yourServername\\yourInstance;Initial Catalog=databaseName;Integrated Security=SSPI;"";
+
+    using (OleDbCommand cmd = new OleDbCommand())
+    {
+        conn.Open();
+        cmd.Connection = conn;
+        cmd.CommandText = ""Select * from yourTable"";
+
+        using (OleDbDataReader dr = cmd.ExecuteReader())
+        {
+            while (dr.Read())
+            {
+                Console.WriteLine(dr[""columnName""]);
+            }
+        }
+    }
+}
+</code></pre>
+"
+1022,93,2008-08-04T04:45:05Z,930,9,"<p>That's definitely a good way to do it.  But you if you happen to be using a database that supports LINQ to SQL, it can be a lot more fun.  It can look something like this:</p>
+
+<pre><code>MyDB db = new MyDB(""Data Source=..."");<br>var q = from db.MyTable<br>        select c;<br>foreach (var c in q)<br>  Console.WriteLine(c.MyField.ToString());<br></code></pre>"
+1043,55,2008-08-04T05:59:53Z,1040,2,"<p>You can use this program, <a href=""http://technet.microsoft.com/en-us/sysinternals/bb896655.aspx"" rel=""nofollow"">Handle</a>, to find which process has the lock on your file. It's a command-line tool, so I guess you use the output from that... I'm not sure about finding it programmatically.</p>
+
+<p>If deleting the file can wait, you could specify it for deletion when your computer next starts up:</p>
+
+<ol>
+<li><p>Start <code>REGEDT32 (W2K)</code> or <code>REGEDIT (WXP)</code> and navigate to:</p>
+
+<pre><code>HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\Session Manager
+</code></pre></li>
+<li><p>W2K and WXP</p>
+
+<ul>
+<li><p><strong>W2K:</strong><br/>Edit<br/>Add Value...<br/>Data Type: <code>REG_MULTI_SZ</code><br/>Value Name: <code>PendingFileRenameOperations</code><br/><kbd>OK</kbd></p></li>
+<li><p><strong>WXP:</strong><br/>Edit<br/>New<br/>Multi-String Value<br/><kbd>enter</kbd><br/>
+<code>PendingFileRenameOperations</code></p></li>
+</ul></li>
+<li><p>In the Data area, enter <code>""\??\"" + filename</code> to be deleted. LFNs may
+be entered without being embedded in quotes. To delete <code>C:\Long Directory Name\Long File Name.exe</code>, enter the following data:</p>
+
+<pre><code>\??\C:\Long Directory Name\Long File Name.exe
+</code></pre>
+
+<p>Then press <kbd>OK</kbd>.</p></li>
+<li><p>The ""destination file name"" is a null (zero) string. It is entered
+as follows:</p>
+
+<ul>
+<li><p><strong>W2K:</strong><br/>Edit<br/>Binary<br/>select Data Format: Hex<br/>click at the end of the hex string<br/>enter 0000 (four zeros)<br/><kbd>OK</kbd></p></li>
+<li><p><strong>WXP:</strong><br/>Right-click the value<br/>choose ""Modify Binary Data""<br/>click at the end of the hex string<br/>enter 0000 (four zeros)<br/><kbd>OK</kbd></p></li>
+</ul></li>
+<li><p>Close <code>REGEDT32/REGEDIT</code> and reboot to delete the file.</p></li>
+</ol>
+
+<p><sup>(Shamelessly stolen from <a href=""http://www.pcreview.co.uk/forums/thread-1581158.php"" rel=""nofollow"">some random forum</a>, for posterity's sake.)</sup></p>
+"
+1044,227,2008-08-04T06:01:52Z,1040,32,"<p>Killing other processes is not a healthy thing to do. If your scenario involves something like uninstallation, you could use the <a href=""http://msdn.microsoft.com/en-us/library/aa365240%28VS.85%29.aspx""><strong><code>MoveFileEx</code></strong> API function</a> to mark the file for deletion upon next reboot.</p>
+
+<p>If it appears that you really need to delete a file in use by another process, I'd recommend re-considering the actual problem before considering any solutions.</p>
+"
+1049,234,2008-08-04T06:12:11Z,1040,5,"<p>If you want to do it programatically. I'm not sure... and I'd really recommend against it.
+If you're just troubleshooting stuff on your own machine, <a href=""http://technet.microsoft.com/en-us/sysinternals/bb896653.aspx"">SysInternals Process Explorer</a> can help you</p>
+
+<p>Run it, use the Find Handle command (I think it's either in the find or handle menu), and search for the name of your file. Once the handle(s) is found, you can forcibly close them.</p>
+
+<p>You can then delete the file and so on.</p>
+
+<p><strong>Beware</strong>, doing this may cause the program which owns the handles to behave strangely, as you've just pulled the proverbial rug out from under it, but it works well when you are debugging your own errant code, or when visual studio / windows explorer is being crap and not releasing file handles even though you told them to close the file ages ago... sigh :-)</p>"
+1050,234,2008-08-04T06:14:42Z,1040,1,"<p>Oh, one big hack I employed years ago, is that Windows won't let you <em>delete</em> files, but it does let you <em>move</em> them.</p>
+
+<p>Pseudo-sort-of-code:</p>
+
+<pre><code>mv %WINDIR%\System32\mfc42.dll %WINDIR\System32\mfc42.dll.old
+Install new mfc42.dll
+Tell user to save work and restart applications
+</code></pre>
+
+<p>When the applications restarted (note we didn't need to reboot the machine), they loaded the new <code>mfc42.dll</code>, and all was well. That, coupled with <code>PendingFileOperations</code> to delete the old one the next time the whole system restarted, worked pretty well.</p>
+"
+1051,NA,2008-08-04T06:15:30Z,1040,11,"<P>The typical method is as follows. You've said you want to do this in C# so here goes...</P>
+<OL>
+<LI>If you don't know which process has the file locked, you'll need to examine each process's handle list, and query each handle to determine if it identifies the locked file. Doing this in C# will likely require P/Invoke or an intermediary C++/CLI to call the native APIs you'll need.</LI>
+<LI>Once you've figured out which process(es) have the file locked, you'll need to safely inject a small native DLL into the process (you can also inject a managed DLL, but this is messier, as you then have to start or attach to the .NET runtime).</LI>
+<LI>That bootstrap DLL then closes the handle using CloseHandle etc.</LI></OL>
+<P>Essentially: the way to unlock a ""locked"" file is to inject a DLL into the offending process's address space and close it yourself. You can do this using native or managed code. No matter what, you're going to need a small amount of native code or at least P/Invoke into the same.</P>
+<P>Helpful links:</P>
+<UL>
+<LI><A href=""http://www.codeproject.com/KB/threads/winspy.aspx"">http://www.codeproject.com/KB/threads/winspy.aspx</A></LI>
+<LI><A href=""http://damianblog.com/2008/07/02/net-code-injection/"">http://damianblog.com/2008/07/02/net-code-injection/</A></LI></UL>
+<P>Good luck!</P>"
+1074,1,2008-08-04T08:04:41Z,1010,7,"<p>Rex, I suspect a good place to start looking is solutions that <strong>compress the ViewState</strong> -- they're grabbing ViewState on the server before it's sent down to the client and gzipping it. That's exactly where you want to be.</p>
+
+<ul>
+<li><a href=""http://www.hanselman.com/blog/CommentView,guid,febce059-7e7c-439e-af3d-c53d250b3e9c.aspx"">Scott Hanselman on ViewState Compression</a> (2005)</li>
+<li><a href=""http://www.bloggingdeveloper.com/post/How-To-Compress-ViewState-in-ASPNET-20-ViewState-Compression-with-SystemIOCompression.aspx"">ViewState Compression with System.IO.Compression</a> (2007)</li>
+</ul>"
+1082,116,2008-08-04T08:21:07Z,1070,2,"<p>Yes, you are right to lock at the VSZ.</p>
+
+<p><code>ps u</code> will give you the VSZ and RSS, which are the virtual memory size and resident set size.  The RSS is how much physical memory has been allocated to the process, and the VSZ is the virtual memory size of the process.  If you have several copies of a program running, a lot of the memory in the VSZ will be shared between those processes.</p>
+"
+1093,51,2008-08-04T09:04:17Z,1010,2,"<p>See this <a href=""http://aspguy.wordpress.com/2008/07/09/reducing-the-page-size-by-storing-viewstate-on-server/"" rel=""nofollow"">blog post</a> where the author describes a method for overriding the default behavior for generating the ViewState and instead shows how to save it on the server Session object.</p>
+
+<blockquote>
+  <p>In ASP.NET 2.0, ViewState is saved by
+  a descendant of PageStatePersister
+  class. This class is an abstract class
+  for saving and loading ViewsState and
+  there are two implemented descendants
+  of this class in .Net Framework, named
+  HiddenFieldPageStatePersister and
+  SessionPageStatePersister. By default
+  HiddenFieldPageStatePersister is used
+  to save/load ViewState information,
+  but we can easily get the
+  SessionPageStatePersister to work and
+  save ViewState in Session object.</p>
+</blockquote>
+
+<p>Although I did not test his code, it seems to show exactly what you want: a way to gain access to ViewState code while still on the server, before postback. </p>"
+1164,91,2008-08-04T11:41:37Z,1160,2,"<p>I am currently ""manually"" doing it through a prebuild-exec Task, using my <a href=""http://www.stum.de/various-tools/cmdtools/"" rel=""nofollow"">cmdnetsvnrev</a> tool, but if someone knows a better ccnet-integrated way of doing it, i'd be happy to hear :-)</p>"
+1168,120,2008-08-04T11:51:59Z,1160,3,"<p>I found <a href=""http://code.google.com/p/svnrevisionlabeller"" rel=""nofollow"">this</a> project on google code. This is <code>CCNET</code> plugin to generate the label in <code>CCNET</code>.</p>
+
+<p>The <code>DLL</code> is tested with <code>CCNET 1.3</code> but it works with <code>CCNET 1.4</code> for me. I'm successfully using this plugin to label my build.</p>
+
+<p>Now onto passing it to <code>MSBuild</code>...</p>
+"
+1169,275,2008-08-04T11:56:42Z,1160,13,"<p>You have basically two options. Either you write a simple script that will start and parse output from</p>
+
+<p><strong>svn.exe info --revision HEAD</strong></p>
+
+<p>to obtain revision number (then generating AssemblyInfo.cs is pretty much straight forward) or just use plugin for CCNET. Here it is:</p>
+
+<blockquote>
+  <p><strong>SVN Revision Labeller</strong> is a plugin for
+  CruiseControl.NET that allows you to
+  generate CruiseControl labels for your
+  builds, based upon the revision number
+  of your Subversion working copy. This
+  can be customised with a prefix and/or
+  major/minor version numbers.</p>
+  
+  <p><a href=""http://code.google.com/p/svnrevisionlabeller/"" rel=""nofollow"">http://code.google.com/p/svnrevisionlabeller/</a></p>
+</blockquote>
+
+<p>I prefer the first option because it's only roughly 20 lines of code:</p>
+
+<pre><code>using System;
+using System.Diagnostics;
+
+namespace SvnRevisionNumberParserSample
+{
+    class Program
+    {
+        static void Main()
+        {
+            Process p = Process.Start(new ProcessStartInfo()
+                {
+                    FileName = @""C:\Program Files\SlikSvn\bin\svn.exe"", // path to your svn.exe
+                    UseShellExecute = false,
+                    RedirectStandardOutput = true,
+                    Arguments = ""info --revision HEAD"",
+                    WorkingDirectory = @""C:\MyProject"" // path to your svn working copy
+                });
+
+            // command ""svn.exe info --revision HEAD"" will produce a few lines of output
+            p.WaitForExit();
+
+            // our line starts with ""Revision: ""
+            while (!p.StandardOutput.EndOfStream)
+            {
+                string line = p.StandardOutput.ReadLine();
+                if (line.StartsWith(""Revision: ""))
+                {
+                    string revision = line.Substring(""Revision: "".Length);
+                    Console.WriteLine(revision); // show revision number on screen                       
+                    break;
+                }
+            }
+
+            Console.Read();
+        }
+    }
+}
+</code></pre>
+"
+1172,266,2008-08-04T12:03:03Z,1160,3,"<p>If you prefer doing it on the <code>MSBuild</code> side over the <code>CCNet</code> config, looks like the <code>MSBuild</code> Community Tasks extension's <a href=""http://msbuildtasks.tigris.org/"" rel=""nofollow""><code>SvnVersion</code></a> task might do the trick.</p>
+"
+1185,60,2008-08-04T12:28:03Z,1180,1,"<p>The trick to that is to use URL rewriting so that <strong>name.domain.com</strong> transparently maps to something like <strong>domain.com/users/name</strong> on your server.  Once you start down that path, it's fairly trivial to implement.</p>"
+1187,275,2008-08-04T12:32:24Z,1180,7,"<p><strong>Don't worry about DNS and URL rewriting</strong></p>
+
+<p>Your DNS record will be static, something like:</p>
+
+<pre><code>*.YOURDOMAIN.COM A 123.123.123.123<br></code></pre>
+
+<p>Ask your DNS provider to do it for you (if it's not done already) or do it by yourself if you have control over your DNS records. This will automatically point all your subdomains (current and future ones) into the same HTTP server.</p>
+
+<p>Once it's done, you will only need to parse HOST header on every single http request to detect what hostname was used to access your server-side scripts on your http server.</p>
+
+<p>Assuming you're using ASP.NET, this is kind of silly example I came up with but works and demonstrates simplicity of this approach:</p>
+
+<pre><code>&lt;%@ Language=""C#"" %&gt;<br>&lt;%<br>string subDomain = Request.Url.Host.Split('.')[0].ToUpper();<br>if (subDomain == ""CLIENTXXX"") Response.Write(""Hello CLIENTXXX, your secret number is 33"");<br>else if (subDomain == ""CLIENTYYY"") Response.Write(""Hello CLIENTYYY, your secret number is 44"");<br>else Response.Write(subDomain+"" doesn't exist"");<br>%&gt;<br></code></pre>"
+1216,120,2008-08-04T13:22:31Z,1160,2,"<blockquote>
+  <p><strong>Customizing csproj files to autogenerate AssemblyInfo.cs</strong> <br>
+  <a href=""http://www.codeproject.com/KB/dotnet/Customizing_csproj_files.aspx"" rel=""nofollow"">http://www.codeproject.com/KB/dotnet/Customizing_csproj_files.aspx</a></p>
+  
+  <p>Every time we create a new C# project,
+  Visual Studio puts there the
+  AssemblyInfo.cs file for us. The file
+  defines the assembly meta-data like
+  its version, configuration, or
+  producer.</p>
+</blockquote>
+
+<p>Found the above technique to auto-gen AssemblyInfo.cs using MSBuild. Will post sample shortly.</p>"
+1232,48,2008-08-04T13:39:39Z,1180,11,"<p>The way we do this is to have a 'catch all' for our domain name registered in DNS so that anything.ourdomain.com will point to our server.</p>
+
+<p>With Apache you can set up a similar catch-all for your vhosts.  The ServerName must be a single static name but the ServerAlias directive can contain a pattern.</p>
+
+<pre><code>Servername www.ourdomain.com
+ServerAlias *.ourdomain.com
+</code></pre>
+
+<p>Now all of the domains will trigger the vhost for our project.  The final part is to decode the domain name actually used so that you can work out the username in your code, something like (PHP):</p>
+
+<pre><code>list( $username ) = explode( ""."", $_SERVER[ ""HTTP_HOST"" ] );
+</code></pre>
+
+<p>or a RewriteRule as already suggested that silently maps user.ourdomain.com/foo/bar to www.ourdomain.com/foo/bar?user=user or whatever you prefer.</p>
+"
+1235,173,2008-08-04T13:43:54Z,1160,3,"<p>I have written a NAnt build file that handles parsing SVN information and creating properties. I then use those property values for a variety of build tasks, including setting the label on the build. I use this target combined with the SVN Revision Labeller mentioned by lubos hasko with great results.</p>
+
+<pre><code>&lt;target name=""svninfo"" description=""get the svn checkout information""&gt;<br>    &lt;property name=""svn.infotempfile"" value=""${build.directory}\svninfo.txt"" /&gt;<br>    &lt;exec program=""${svn.executable}"" output=""${svn.infotempfile}""&gt;<br>        &lt;arg value=""info"" /&gt;<br>    &lt;/exec&gt;<br>    &lt;loadfile file=""${svn.infotempfile}"" property=""svn.info"" /&gt;<br>    &lt;delete file=""${svn.infotempfile}"" /&gt;<br><br>    &lt;property name=""match"" value="""" /&gt;<br><br>    &lt;regex pattern=""URL: (?'match'.*)"" input=""${svn.info}"" /&gt;<br>    &lt;property name=""svn.info.url"" value=""${match}""/&gt;<br><br>    &lt;regex pattern=""Repository Root: (?'match'.*)"" input=""${svn.info}"" /&gt;<br>    &lt;property name=""svn.info.repositoryroot"" value=""${match}""/&gt;<br><br>    &lt;regex pattern=""Revision: (?'match'\d+)"" input=""${svn.info}"" /&gt;<br>    &lt;property name=""svn.info.revision"" value=""${match}""/&gt;<br><br>    &lt;regex pattern=""Last Changed Author: (?'match'\w+)"" input=""${svn.info}"" /&gt;<br>    &lt;property name=""svn.info.lastchangedauthor"" value=""${match}""/&gt;<br><br>    &lt;echo message=""URL: ${svn.info.url}"" /&gt;<br>    &lt;echo message=""Repository Root: ${svn.info.repositoryroot}"" /&gt;<br>    &lt;echo message=""Revision: ${svn.info.revision}"" /&gt;<br>    &lt;echo message=""Last Changed Author: ${svn.info.lastchangedauthor}"" /&gt;<br>&lt;/target&gt;<br></code></pre>"
+1320,312,2008-08-04T15:12:37Z,1300,4,"<p>In my opinion it is more a question of personal preference.  nAnt is a great framework and MSBuild is almost as capable.  With the ability to easily develop custom tasks (in both frameworks) you can accomplish almost anything that you need to do.</p>
+
+<p>I cannot answer the ""still supported"" portion of your questions, but I would say if you are already comfortable with nAnt then it's probably viable.  If you (or someone in your group) is familiar with MSBuild then that is a fine way to go as well.</p>"
+1347,17,2008-08-04T15:37:31Z,1300,0,"<p>Honestly it depends on what fits in to your environment better.  If you are using a lot of Non-Microsoft tools, nunit, ccnet, ncover.  You will probably find better support with nant.  Alternatively if you are using MSTest, TFSBuild, you will probably find MSBuild a better environment.  I would learn both and use which every fits more smoothly with your environment.</p>"
+1364,35,2008-08-04T15:52:42Z,1300,2,"<p>If you've already got a bunch of custom tasks you use with nAnt, stick with it - you don't gain much with MSBuild.  That said, there doesn't seem to be anything that nAnt can do that MSBuild can't at its core.  Both can call external tools, both can run .Net-based custom tasks, and both have a bunch of community tasks out there.</p>
+
+<p>We're using MSBuild here for the same reason you are - it's the default build system for VS now, and we didn't have any nAnt-specific stuff to worry about.</p>
+
+<p>The <a href=""http://msbuildtasks.tigris.org/"" rel=""nofollow"">MSBuildCommunityTasks</a> are a good third-party task base to start with, and covers most of the custom stuff I ever did in nAnt, including VSS and Subversion support.</p>"
+1394,91,2008-08-04T16:38:03Z,1390,16,"<p>Not sure how credible <a href=""http://www.builderau.com.au/program/windows/soa/Getting-started-with-Windows-Server-2008-Core-edition/0,339024644,339288700,00.htm"">this source is</a>, but:</p>
+
+<blockquote>
+  <p>The Windows Server 2008 Core edition can:</p>
+  
+  <ul>
+  <li><p>Run the file server role.</p></li>
+  <li><p>Run the Hyper-V virtualization server role.</p></li>
+  <li><p>Run the Directory Services role.</p></li>
+  <li><p>Run the DHCP server role.</p></li>
+  <li><p>Run the IIS Web server role.</p></li>
+  <li><p>Run the DNS server role.</p></li>
+  <li><p>Run Active Directory Lightweight Directory Services.</p></li>
+  <li><p>Run the print server role.</p></li>
+  </ul>
+  
+  <p>The Windows Server 2008 Core edition cannot:</p>
+  
+  <ul>
+  <li><p>Run a SQL Server.</p></li>
+  <li><p>Run an Exchange Server.</p></li>
+  <li><p>Run Internet Explorer.</p></li>
+  <li><p>Run Windows Explorer.</p></li>
+  <li><p>Host a remote desktop session.</p></li>
+  <li><p>Run MMC snap-in consoles locally.</p></li>
+  </ul>
+</blockquote>
+"
+1446,307,2008-08-04T17:38:59Z,580,2,"<p>Using SMO/DMO, it isn't too difficult to generate a script of your schema.  Data is a little more fun, but still doable.</p>
+
+<p>In general, I take ""Script It"" approach, but you might want to consider something along these lines:</p>
+
+<ul>
+<li>Distinguish between Development and Staging, such that you can Develop with a subset of data ... this I would create a tool to simply pull down some production data, or generate fake data where security is concerned.</li>
+<li>For team development, each change to the database will have to be coordinated amongst your team members.  Schema and data changes can be intermingled, but a single script should enable a given feature.  Once all your features are ready, you bundle these up in a single SQL file and run that against a restore of production.</li>
+<li>Once your staging has cleared acceptance, you run the single SQL file again on the production machine.</li>
+</ul>
+
+<p>I have used the Red Gate tools and they are <strong>great</strong> tools, but if you can't afford it, building the tools and working this way isn't too far from the ideal.</p>"
+1464,26,2008-08-04T18:00:50Z,580,5,"<p>Like Rob Allen, I use SQL Compare / Data Compare by Redgate. I also use the Database publishing wizard by Microsoft. I also have a console app I wrote in C# that takes a sql script and runs it on a server. This way you can run large scripts with 'GO' commands in it from a command line or in a batch script.</p>
+
+<p>I use Microsoft.SqlServer.BatchParser.dll and Microsoft.SqlServer.ConnectionInfo.dll libraries in the console application.</p>
+"
+1550,313,2008-08-04T19:51:49Z,650,0,"<p>Some time ago I wrote a quick and dirty exe that would update the version #'s in an assemblyinfo.{cs/vb} - I also have used rxfind.exe (a simple and powerful regex-based search replace tool) to do the update from a command line as part of the build process.  A couple of other helpfule hints:</p>
+
+<ol>
+<li>separate the assemblyinfo into product parts (company name, version, etc.) and assembly specific parts (assembly name etc.).  See <a href=""http://blog.darrenstokes.com/2007/12/17/ease-versioning-multiple-assemblies-by-splitting-up-assemblyinfo/"" rel=""nofollow"">here</a></li>
+<li>Also - i use subversion, so I found it helpful to set the build number to subversion revision number thereby making it really easy to always get back to the codebase that generated the assembly (e.g. 1.4.100.1502 was built from revision 1502).</li>
+</ol>"
+1617,173,2008-08-04T21:46:01Z,1600,6,"<p>It is possible to skip the step of creating the empty database. You can create the new database as part of the restore process.</p>
+
+<p>This is actually the easiest and best way I know of to clone a database. You can eliminate errors by scripting the backup and restore process rather than running it through the SQL Server Management Studio</p>
+
+<p>There are two other options you could explore:</p>
+
+<ol>
+<li>Detach the database, copy the .mdf file and re-attach.</li>
+<li>Use SQL Server Integration Services (SSIS) to copy all the objects over</li>
+</ol>
+
+<p>I suggest sticking with backup and restore and automating if necessary.</p>"
+1621,224,2008-08-04T21:54:18Z,1610,51,"<P>You can not do this programatically (in a safe way that is) without creating a new table. </P>
+<P>What Enterprise Manager does when you commit a reordering is to create a new table, move the data and then delete the old table and rename the new table to the existing name. </P>
+<P>If you want your columns in a particular order/grouping without altering their physical order, you can create a view which can be whatever you desire.</P>"
+1624,192,2008-08-04T22:00:53Z,1610,1,"<p>When Management Studio does it, it's creating a temporary table, copying everything across, dropping your original table and renaming the temporary table.  There's no simple equivalent T-SQL statement.</p>
+
+<p>If you don't fancy doing that, you could always create a view of the table with the columns in the order you'd like and use that?</p>
+
+<p>Edit: beaten!</p>"
+1646,225,2008-08-04T22:18:05Z,1600,4,"<p>Here's a dynamic sql script I've used in the past.  It can be further modified but it will give you the basics.  I prefer scripting it to avoid the mistakes you can make using the Management Studio:</p>
+
+<pre><code><br>Declare @OldDB varchar(100)<br>Declare @NewDB varchar(100)<br>Declare @vchBackupPath varchar(255)<br>Declare @query varchar(8000)<br><br><br>/*Test code to implement <br>Select @OldDB = 'Pubs'<br>Select @NewDB = 'Pubs2'<br>Select @vchBackupPath = '\\dbserver\C$\Program Files\Microsoft SQL Server\MSSQL.1\MSSQL\Backup\pubs.bak'<br>*/<br><br>SET NOCOUNT ON;<br><br>Select @query = 'Create Database ' + @NewDB<br>exec(@query)<br><br>Select @query = '<br>Declare @vBAKPath varchar(256)<br>declare @oldMDFName varchar(100)<br>declare @oldLDFName varchar(100)<br>declare @newMDFPath varchar(100)<br>declare @newLDFPath varchar(100)<br>declare @restQuery varchar(800)<br><br>select @vBAKPath = ''' + @vchBackupPath + '''<br>select @oldLDFName = name from ' + @OldDB +'.dbo.sysfiles where filename like ''%.ldf%''<br>select @oldMDFName = name from  ' + @OldDB +'.dbo.sysfiles where filename like ''%.mdf%''<br>select @newMDFPath = physical_name from ' + @NewDB +'.sys.database_files where type_desc = ''ROWS''<br>select @newLDFPath = physical_name from ' + @NewDB +'.sys.database_files where type_desc = ''LOG''<br><br>select @restQuery = ''RESTORE DATABASE ' + @NewDB + <br>' FROM DISK = N'' + '''''''' + @vBAKpath + '''''''' + <br>'' WITH MOVE N'' + '''''''' + @oldMDFName + '''''''' +  <br>'' TO N'' + '''''''' + @newMDFPath + '''''''' +  <br>'', MOVE N'' + '''''''' + @oldLDFName + '''''''' +  <br>'' TO N'' + '''''''' + @newLDFPath + '''''''' +  <br>'', NOUNLOAD, REPLACE, STATS = 10''<br><br>exec(@restQuery)<br>--print @restQuery'<br><br><br>exec(@query)<br><br><br><br><br><br></code></pre>"
+1673,308,2008-08-04T22:52:31Z,1300,13,"<p>If you are quite happy with MSBuild, then I would stick with MSBuild.  This may be one of those cases where the tool you learn first is the one you will prefer.  I started with NAnt and can't quite get used to MSBuild.  I'm sure they will both be around for quite some time.</p>
+
+<p>There are some fundamental differences between the two, probably best highlighted by <a href=""http://forums.msdn.microsoft.com/en-US/msbuild/thread/994761a3-ea9d-40c7-8d4f-4c208b2023f6/"">this conversation between some NAnt fans and a Microsoftie</a>.</p>
+
+<p>Interestingly, <a href=""http://codebetter.com/blogs/jeremy.miller/default.aspx"">Jeremy Miller</a> asked the exact opposite question <a href=""http://codebetter.com/blogs/jeremy.miller/archive/2007/09/20/is-there-a-good-reason-to-switch-to-msbuild.aspx"">on his blog</a> last year.  </p>"
+1765,307,2008-08-05T00:57:48Z,1760,1,"<p>I like <a href=""http://www.mbunit.com/"" rel=""nofollow"">MbUnit</a>, er, <a href=""http://www.gallio.org/"" rel=""nofollow"">Gallio</a>.  Most importantly to me is having good tools support inside Visual Studio.  For that I use <a href=""http://www.jetbrains.com/resharper/index.html"" rel=""nofollow"">Resharper</a>, which has an <a href=""http://code.google.com/p/mbunit-resharper/"" rel=""nofollow"">MbUnit test runner</a>.  A lot of folks seem to like <a href=""http://www.testdriven.net/overview.aspx"" rel=""nofollow"">TestDriven.NET</a> as their test runner as well.</p>"
+1773,164,2008-08-05T01:07:50Z,1070,13,"<p>The exact definitions of ""vsize,"" ""rss,"" ""rprvt,"" ""rshrd,"" and other obscure-looking abbreviations vary from OS to OS.  The manual pages for the ""top"" and ""ps"" commands will have some sort of description, but all such descriptions are simplified greatly (or are based on long-extinct kernel implementations).  ""Process size"" as a concept is fiendishly difficult to pin down in the general case.  Answers in specific instances depend heavily on the actual memory management implementation in the OS, and are rarely as satisfying as the tidy ""process size"" concept that exists in the minds of most users (and most developers).</p>
+
+<p>For example, none of those numbers (nor, likely, any combination of them) can be used to tell you exactly how many such processes can run at once in a given amount of free memory.  But really, your best bet is to come at it from that end: why do you want this number, and what will you use it for?  Given that information, I think you'll get more useful answers.</p>"
+1776,313,2008-08-05T01:11:30Z,1600,0,"<p>The <strong>Publish to Provider</strong> functionality has worked great for me.  See <a href=""http://weblogs.asp.net/scottgu/archive/2006/12/22/recipe-deploying-a-sql-database-to-a-remote-hosting-environment-part-1.aspx"" rel=""nofollow"">Scott Gu's Blog Entry</a>.</p>
+
+<p>If you need something really robust look  at redgate software's tools <a href=""http://www.red-gate.com/"" rel=""nofollow"">here</a>...if you are doing much SQL at all, these are worth the $$.</p>"
+1793,307,2008-08-05T01:31:16Z,1600,2,<p>Backup and Restore is the most straight-forward way I know.  You have to be careful between servers as security credentials don't come with the restored database.</p>
+1794,117,2008-08-05T01:32:34Z,1790,2,"<p>Sounds like you might like <a href=""http://git.or.cz/"" rel=""nofollow"">Git</a>. There's a Google Talk <a href=""http://www.youtube.com/watch?v=4XpnKHJAok8"" rel=""nofollow"">explaining all about it</a>.</p>"
+1806,292,2008-08-05T01:44:13Z,1790,0,"<p>Its probably not exactly what your looking for, but you may be able to implement OS level clustering.</p>"
+1820,358,2008-08-05T02:07:50Z,1760,2,"<P>I like <A href=""http://www.testdriven.net/overview.aspx"" rel=""nofollow"">TestDriven.NET</A> (even though I use ReSharper) and I'm pretty happy with <A href=""http://www.codeplex.com/xunit"" rel=""nofollow"">XUnit.net</A>. It uses Facts instead of Tests which many people dislike but I like the difference in terminology. It's useful to think of a collection of automatically provable Facts about your software and see which ones you violate when you make a change.</P>
+<P>Be aware that <A href=""http://blogs.msdn.com/buckh/archive/2007/03/27/orcas-unit-testing-to-be-available-in-visual-studio-professional.aspx"" rel=""nofollow"">Visual Studio 2008 Professional (and above) now comes with integrated Unit Testing</A> (it used to be available only with the Team System Editions) and may be suitable for your needs. </P>"
+1821,308,2008-08-05T02:15:24Z,1760,47,"<p>There are so many it's crazy.  Crazy good, I guess.</p>
+
+<ul>
+<li>For the conservative types (me), <a href=""http://www.nunit.org/""><strong>NUnit</strong></a> is still available and still more than capable.</li>
+<li>For the Microsoft-types, <a href=""http://msdn.microsoft.com/en-us/vstudio/default.aspx""><strong>MSTest</strong></a> is adequate, but slow and clunky compared to Nunit.  It also lacks code coverage without paying the big bucks for the pricey versions of Visual Studio.</li>
+<li>There's also <a href=""http://www.mbunit.com/About.aspx""><strong>MbUnit</strong></a>.  It's like NUnit, but has nifty features like RowTest (run the same test with different parameters) and Rollback (put the database back like you found it after a test) </li>
+<li>And finally, <a href=""http://www.codeplex.com/xunit""><strong>xUnit.net</strong></a> is the trendy option with some attitude.</li>
+<li>Oh, and <a href=""http://testdriven.net/""><strong>TestDriven.NET</strong></a> will give you IDE integration for both Nunit and MBunit.</li>
+</ul>
+
+<p>I'm sure they're all just fine.  I'd steer away from MSTest though, unless you just enjoy the convenience of having everything in one IDE out of the box.</p>
+
+<p><a href=""http://www.hanselminutes.com/default.aspx?showID=130"">Scott Hanselman</a> has a podcast on this very topic.</p>
+"
+1971,269,2008-08-05T06:43:30Z,1970,3,"<p>When I wrote my first trigger it was in Perl because that was the language used in the example I found but the last triggers I wrote where in Python because I'm more comfortable with that.</p>
+
+<p>I think programmer comfort is my main reason to choose python but I think Perl is still better supported.</p>"
+2017,48,2008-08-05T08:22:05Z,1790,4,"<p>This is more or less the perfect use case for <a href=""http://svk.bestpractical.com/view/HomePage"" rel=""nofollow"">SVK</a>.  SVK is a command line front end for subversion that works with an entire local copy of the repository.  So your commits, updates, etc. work on the local repository and you can then sync with a master.  I would generally recommend SVK over plain subversion anyway as it makes a lot of things nicer.  No .svn folders, better branching and merging, better conflict resolution.</p>
+"
+2019,342,2008-08-05T08:29:13Z,330,3,"<p>One way of deciding whether or not to use nested classes is to think whether or not this class plays a supporting role or it's own part.</p>
+
+<p>If it exists solely for the purpose of helping another class then I generally make it a nested class. There are a whole load of caveats to that, some of which seem contradictory but it all comes down to experience and gut-feeling.</p>"
+2023,370,2008-08-05T08:37:19Z,330,2,"<p>sounds like a case where you could use the <a href=""http://en.wikipedia.org/wiki/Strategy_pattern"" rel=""nofollow"">strategy pattern</a></p>"
+2058,371,2008-08-05T10:07:51Z,1010,1,"<p>I enabled compression following similar articles to those posted above. The key to accessing the ViewState before the application sends it was overriding this method;</p>
+
+<pre><code>protected override void SavePageStateToPersistenceMedium(object viewState)<br></code></pre>
+
+<p>You can call the base method within this override and then add whatever additional logic you require to handle the ViewState.</p>"
+2254,34,2008-08-05T13:10:26Z,2250,5,"<p>in 1.x there used to be things DataTables couldn't do which DataSets could (don't remember exactly what). All that was changed in 2.x.  My guess is that's why a lot of examples still use DataSets.  DataTables should be quicker as they are more lightweight. If you're only pulling a single resultset, its your best choice between the two.</p>"
+2258,377,2008-08-05T13:12:15Z,2250,69,"<p>It really depends on the sort of data you're bringing back.  Since a DataSet is (in effect) just a collection of DataTable objects, you can return multiple distinct sets of data into a single, and therefore more manageable, object.  </p>
+
+<p>Performance-wise, you're more likely to get inefficiency from unoptimized queries than from the ""wrong"" choice of .NET construct.  At least, that's been my experience.</p>
+"
+2264,26,2008-08-05T13:15:53Z,2250,3,"<p>One feature of the DataSet is that if you can call multiple select statements in your stored procedures, the DataSet will have one DataTable for each.</p>"
+2312,307,2008-08-05T13:42:15Z,2300,3,"<p>Whatever your [things] are need to be written outside of VBScript.</p>
+
+<p>In VB6, <a href=""http://www.vb-helper.com/howto_custom_collection_with_for_each.html"" rel=""nofollow"">you can write a Custom Collection class</a>, then you'll need to compile to an ActiveX DLL and register it on your webserver to access it.</p>"
+2369,95,2008-08-05T14:17:22Z,930,6,"<p>This is an alternative way (DataReader is faster than this one):</p>
+
+<pre><code>string s = """";<br>SqlConnection conn = new SqlConnection(""Server=192.168.1.1;Database=master;Connect Timeout=30;User ID=foobar;Password=raboof;"");<br>SqlDataAdapter da = new SqlDataAdapter(""SELECT TOP 5 name, dbid FROM sysdatabases"", conn);<br>DataTable dt = new DataTable();<br><br>da.Fill(dt);<br><br>for (int i = 0; i &lt; dt.Rows.Count; i++)<br>{<br>    s += dt.Rows[i][""name""].ToString() + "" -- "" + dt.Rows[i][""dbid""].ToString() + ""\n"";<br>}<br><br>MessageBox.Show(s);<br></code></pre>"
+2382,383,2008-08-05T14:26:41Z,2120,118,"<p>I have found the solution else where:</p>
+
+<pre><code>SELECT SUBSTRING(master.dbo.fn_varbintohexstr(HashBytes('MD5', 'HelloWorld')), 3, 32) <br></code></pre>"
+2531,157,2008-08-05T16:24:53Z,2530,1637,"<p>Firefox 30 ignores <code>autocomplete=""off""</code> for passwords, opting to prompt the user instead whether the password should be stored on the client. Note the following <a href=""https://bugzilla.mozilla.org/show_bug.cgi?id=956906#c100"">commentary</a> from May 5, 2014:</p>
+
+<blockquote>
+  <ul>
+  <li>The password manager <em>always</em> prompts if it wants to save a password. Passwords are not saved without permission from the user.</li>
+  <li>We are the third browser to implement this change, after IE and Chrome.</li>
+  </ul>
+</blockquote>
+
+<p>According to <a href=""https://developer.mozilla.org/en/How_to_Turn_Off_Form_Autocompletion"">Mozilla developer documentation</a> the form element attribute <code>autocomplete</code> prevents form data from being cached in older browsers.</p>
+
+<pre><code>&lt;input type=""text"" name=""foo"" autocomplete=""off"" /&gt;
+</code></pre>
+"
+2535,269,2008-08-05T16:26:26Z,2530,11,"<pre><code>&lt;form autocomplete=""off"" ...<br></code></pre>
+
+<p>was a none standard way to do this (I think mozilla and IE still support it) but messing with the users expectations is normally a bad idea.  </p>
+
+<p>If the user enters their credit card details into a form and then let's someone else use that browser it's not your concern :)</p>"
+2536,1384652,2008-08-05T16:27:39Z,2530,6,"<p>Use a non-standard name and id for the fields, so rather than ""name"" have ""name_"". Browsers will then not see it as being the name field. The best part about it is that you can do this to some but not all fields and it will autocomplete some but not all fields.</p>"
+2537,225,2008-08-05T16:27:40Z,2530,77,"<pre><code>&lt;form name=""form1"" id=""form1"" method=""post"" 
+      autocomplete=""off"" action=""http://www.example.com/form.cgi""&gt;
+</code></pre>
+
+<p>This will work in IE and FF, the downside is that it is not XHTML standard.</p>
+"
+2542,106,2008-08-05T16:32:11Z,2530,12,"<p>Just set <code>autocomplete=""off""</code>. There is a very good reason for doing this: You want to provide your own autocomplete functionality!</p>
+"
+2558,414,2008-08-05T16:43:11Z,2540,11,"<P>As always, Google is your friend:</P>
+<P><A href=""http://nixbit.com/cat/programming/libraries/c-generic-library/"">http://nixbit.com/cat/programming/libraries/c-generic-library/</A></P>
+<P>specifically:</P>
+<P><A href=""http://nixbit.com/cat/programming/libraries/generic-data-structures-library/"">http://nixbit.com/cat/programming/libraries/generic-data-structures-library/</A></P>"
+2560,72,2008-08-05T16:44:01Z,2550,19,"<p>Flash is certainly the most ubiquitous and portable solution.  <a href=""http://en.wikipedia.org/wiki/Adobe_Flash#Market_share"">98% of browsers</a> have Flash installed.  Other alternatives are <a href=""http://www.apple.com/quicktime/download/"">Quicktime</a>, <a href=""http://www.microsoft.com/windows/windowsmedia/default.mspx"">Windows Media Player</a>, or even <a href=""http://silverlight.net/"">Silverlight</a> (Microsoft's Flash competitor, which can be used to embed several video formats).</p>
+
+<p>I would recommend using Flash (and it's FLV video file format) for embedding your video unless you have very specific requirements as far as video quality or DRM.</p>"
+2562,91,2008-08-05T16:44:43Z,2550,5,"<p>Flash is usually the product of choice: Everyone has it, and using the <a href=""http://www.jeroenwijering.com/?item=JW_FLV_Media_Player"">JW FLV Player</a> makes it relatively easy on your side.</p>
+
+<p>As for other Video Formats, there are WMV and QuickTime, but the players are rather ""heavy"", not everyone might have them and they feel so 1990ish...</p>
+
+<p>Real Player... Don't let me even start ranting about that pile of ...</p>
+
+<p>The only other alternative of Flash that I would personally consider is Silverlight, which allows streaming WMV Videos. I found the production of WMV much better and easier than FLV because all Windows FLV Encoders I tried are not really good and stable, whereas pretty much every tool can natively output WMV. The problem with Silverlight is that no one has that Browser Plugin (yet?). There is also a player <a href=""http://www.jeroenwijering.com/?item=JW_WMV_Player"">from JW</a>.</p>"
+2566,46,2008-08-05T16:49:31Z,2550,0,"<p>I have worked for a company that developed a system for distributing media content to dedicated ""players"". It was web based and used ASP.NET technology and have tried almost every possible media format you can think of and your choice really comes down to asking yourself:</p>
+
+<p>does it needs to play directly out of the box, or can I make sure that the components required to play the videos can be installed beforehand?</p>
+
+<p>If your answer is that it needs to play out of the box then really your only option is flash (I know that it is not installed by default, but most will already have it installed)</p>
+
+<p>If it is not a big issue that extra components are needed then you can go with formats that are supported by windows media player</p>
+
+<p>The reason why windows media player falls into the second option is because for some browsers and some formats extra components must be installed.</p>
+
+<p>We had the luxury that the ""players"" were provided by us, so we could go for the second option, however even we tried to <a href=""http://ffmpeg.mplayerhq.hu/"" rel=""nofollow"">convert as much as possible</a> back to flash because it handles way better than windows media player</p>"
+2697,199,2008-08-05T18:50:09Z,2540,33,"<p>The <a href=""http://library.gnome.org/devel/glib/stable/"" rel=""nofollow"">Glib</a> library used on the Gnome project may also be some use. Moreover it is pretty well tested.</p>
+
+<p>IBM developer works has a good tutorial on its use: <a href=""https://www.ibm.com/developerworks/linux/tutorials/l-glib/"" rel=""nofollow"">Manage C data using the GLib collections</a></p>
+"
+2699,36,2008-08-05T18:53:44Z,2630,0,"<p>While semi-related to your question, it does not entirely fit the Powershell NetCmdlets motif. But I wanted to post it anyhow as I use it daily and it may help others. Simply making shift-control-c key combo into displaying the visual studio command prompt. </p>"
+2754,92,2008-08-05T19:55:52Z,2750,1,"<p>Validation should be captured separately from getters or setters in a validation method.  That way if the validation needs to be reused across multiple components, it is available.</p>
+
+<p>When the setter is called, such a validation service should be utilized to sanitize input into the object.  That way you know all information stored in an object is valid at all times.</p>
+
+<p>You don't need any kind of validation for the getter, because information on the object is already trusted to be valid.</p>
+
+<p>Don't save your validation until a database update!! It is better to <strong>fail fast</strong>.</p>"
+2757,357,2008-08-05T19:59:05Z,2750,3,"<p>From the perspective of having the most maintainable code, I think you should do as much validation as you can in the setter of a property. This way you won't be caching or otherwise dealing with invalid data.</p>
+
+<p>After all, this is what properties are meant for. If all you have is a bunch of properties like...</p>
+
+<pre><code>public string Name
+{
+    get
+    {
+        return _name;
+    }
+    set
+    {
+        _name = value;
+    }
+}
+</code></pre>
+
+<p>... they might as well be fields</p>"
+2760,304,2008-08-05T19:59:13Z,2750,3,"<p>It depends.</p>
+
+<p>Generally, code should fail fast. If the value can be set by multiple points in the code and you validate only on after retrieving the value, the bug appears to be in the code that does the update. If the setters validate the input, you know what code is trying to set invalid values.</p>"
+2761,91,2008-08-05T19:59:39Z,2750,12,"<p>Well, one of the reaons why classes usually contain private members with public getters/setters is exactly because they can verify data.</p>
+
+<p>If you have a Number than can be between 1 and 100, i would definitely put something in the setter that validates that and then maybe throw an exception that is being caught by the code. The reason is simple: If you don't do it in the setter, you have to remember that 1 to 100 limitation every time you set it, which leads to duplicated code or when you forget it, it leads to an invalid state.</p>
+
+<p>As for performance, i'm with Knuth here:</p>
+
+<blockquote>
+  <p>""We should forget about small efficiencies, say about 97% of the time: premature optimization is the root of all evil.""</p>
+</blockquote>"
+2768,198,2008-08-05T20:03:46Z,2750,1,"<p>You might wanna check out <a href=""http://books.google.com/books?id=7dlaMs0SECsC"" rel=""nofollow"">Domain Driven Design</a>, by Eric Evans. DDD has this notion of  a Specification:</p>
+
+<blockquote>
+  <p>... explicit predicate-like VALUE
+  OBJECTS for specialized purposes. A
+  SPECIFICATION is a predicate that
+  determines if an object does or does
+  not satisfy some criteria.</p>
+</blockquote>
+
+<p>I think failing fast is one thing, the other is where to keep the logic for validation. The domain is the right place to keep the logic and I think a Specification Object or a validate method on your Domain objects would be a good place.</p>"
+2779,289,2008-08-05T20:11:45Z,2770,21,"<p>You need to handle the <code>System.Windows.Forms.Application.ThreadException</code> event for Windows Forms. This article really helped me: <a href=""http://bytes.com/forum/thread236199.html"">http://bytes.com/forum/thread236199.html</a>.</p>
+"
+2789,2089740,2008-08-05T20:16:03Z,2780,15,"<p>It's called <a href=""http://en.wikipedia.org/wiki/Alpha_compositing"">alpha blending</a>.</p>
+
+<p>In psuedocode, assuming the background color (blend) always has 255 alpha. Also assumes alpha is 0-255.</p>
+
+<pre><code>alpha=argb.alpha()<br>r = (alpha/255)*argb.r() + (1 - alpha/255)*blend.r()<br>g = (alpha/255)*argb.g() + (1 - alpha/255)*blend.g()<br>b = (alpha/255)*argb.b() + (1 - alpha/255)*blend.b()<br></code></pre>
+
+<p><em>note: you probably need to be a bit (more) careful about floating-point/int math and rounding issues, depending on language. Cast intermediates accordingly</em></p>
+
+<p><strong>Edited to add:</strong></p>
+
+<p>If you don't have a background color with an alpha of 255, the algebra gets alot more complicated. I've done it before and it's a fun exercise left to the reader (if you really need to know, ask another question :). </p>
+
+<p>In other words, what color C blends into some background the same as blending A, then blending B. This is sort of like calculating A+B (which isn't the same as B+A).</p>"
+2790,308,2008-08-05T20:16:26Z,2770,6,"<p>If you're using VB.NET, you can tap into the very convenient ApplicationEvents.vb.  This file comes for free with a VB.NET WinForms project and contains a method for handling <a href=""http://msdn.microsoft.com/en-us/library/3a02k5s0%28VS.80%29.aspx"">unhandled exceptions</a>.</p>
+
+<p>To get to this nifty file, it's ""Project Properties &gt;&gt; Application &gt;&gt; Application Events""</p>
+
+<p>If you're not using VB.NET, then yeah, it's handling <a href=""http://msdn.microsoft.com/en-us/library/system.windows.forms.application.threadexception.aspx"">Application.ThreadException</a>.</p>"
+2817,234,2008-08-05T20:42:31Z,2770,8,"<p>Currently in my winforms app I have handlers for <code>Application.ThreadException</code>, as above, but also <code>AppDomain.CurrentDomain.UnhandledException</code></p>
+
+<p>Most exceptions arrive via the <code>ThreadException</code> handler, but the AppDomain one has also caught a few in my experience</p>"
+2831,234,2008-08-05T20:53:00Z,1760,4,"<p>xUnit.net looks like it provides a slightly different approach to N/MB/MS/Unit, which is interesting.</p>
+
+<p>In my search for an rspec-like solution (because I LOVE the rspec), I also came across <a href=""http://nspec.tigris.org/"" rel=""nofollow"">NSpec</a>, which looks a bit wordy, but combined with the <a href=""http://code.google.com/p/nspec-extensions/"" rel=""nofollow"">NSpec Extensions</a> addon to use C#3 extension methods, it looks pretty nice.</p>
+"
+2843,36,2008-08-05T20:59:21Z,2840,32,"<p>You can use <code>the Row_Number()</code> function.
+Its used as follows:</p>
+
+<pre><code>SELECT Row_Number() OVER(ORDER BY UserName) As RowID, UserFirstName, UserLastName
+FROM Users
+</code></pre>
+
+<p>From which it will yield a result set with a <code>RowID</code> field which you can use to page between.</p>
+
+<pre><code>SELECT * 
+FROM 
+    ( SELECT Row_Number() OVER(ORDER BY UserName) As RowID, UserFirstName, UserLastName
+      FROM Users 
+    ) As RowResults
+WHERE RowID Between 5 AND 10
+</code></pre>
+
+<p>etc</p>
+"
+2855,36,2008-08-05T21:05:10Z,2840,0,"<p>I believe you'd need to perform a separate query to accomplish that unfortionately.</p>
+
+<p>I was able to accomplish this at my previous position using some help from this page:
+<a href=""http://aspnet.4guysfromrolla.com/articles/031506-1.aspx"" rel=""nofollow"">Paging in DotNet 2.0</a></p>
+
+<p>They also have it pulling a row count seperately.</p>"
+2908,1384652,2008-08-05T21:52:44Z,2900,1,"<p>Just to check, if you use <strong>just</strong> this part you get an error?</p>
+
+<pre><code>&lt;?php
+include(""../includes/connect.php"");
+
+$query = ""SELECT * from story"";
+$result = mysql_query($query) or die(mysql_error());
+</code></pre>
+
+<p>If so, do you still get an error if you copy and paste one of those Inserts into this page, I am trying to see if it's local to the page or that actual line.</p>
+
+<p>Also, can you post a copy of the connection calls (minus passwords), unless the inserts use exactly the same syntax as this example.</p>
+"
+2911,271,2008-08-05T21:56:20Z,2900,1,"<p>Does the apache user require a password to connect to the database?  If so, then the fact that it says ""using password: NO"" would lead me to believe that the code is trying to connect without a password.</p>
+
+<p>If, however, the apache user doesn't require a password, a double-check of the permissions may be a good idea (which you mentioned you already checked).  It may still be beneficial to try executing something like this at a mysql prompt:</p>
+
+<blockquote>
+  <p><code>GRANT ALL PRIVILEGES ON</code> <em>databasename</em><code>.* to 'apache'@'localhost';</code></p>
+</blockquote>
+
+<p>That syntax should be correct.  </p>
+
+<p>Other than that, I'm just as stumped as you are.</p>"
+2915,457,2008-08-05T22:02:23Z,2900,0,"<p>If indeed you are able to insert using the same connection calls, your problem most likely lies in the user ""apache"" not having SELECT permissions on the database. If you have phpMyAdmin installed you can look at the permissions for the user in the Privileges pane. phpMyAdmin also makes it very easy to modify the permissions.</p>
+
+<p>If you only have access to the command line, you can check the permissions from the mysql database.</p>
+
+<p>You'll probably need to do something like: </p>
+
+<p>GRANT SELECT ON myDatabase.myTable TO 'apache'@'localhost';</p>"
+2943,454,2008-08-05T22:40:40Z,2900,0,"<blockquote>
+  <p>Just to check, if you use just this part you get an error?</p>
+  
+  <p>If so, do you still get an error if you copy and paste one of those Inserts into this >page, I am trying to see if it's local to the page or that actual line.</p>
+  
+  <p>Also, can you post a copy of the connection calls (minus passwords), unless the inserts >use exactly the same syntax as this example.</p>
+</blockquote>
+
+<p>Here is what is in the connection.php file.  I linked to the file through an include in the same fashion as where I execute the INSERT queries elsewhere in the code.</p>
+
+<pre><code>$conn = mysql_connect(""localhost"", ******, ******) or die(""Could not connect"");
+mysql_select_db(""adbay_com_-_cms"") or die(""Could not select database"");
+</code></pre>
+
+<p>I will try the working INSERT query in this area to check that out.</p>
+
+<p>As to the others posting about the password access.  I did, as stated in my first posting, check permissions.  I used phpMyAdmin to verify that the permissions for the user account I was using were correct.  And if it matters at all, apache@localhost is not the name of the user account that I use to get into the database.  I don't have any user accounts with the name apache in them at all for that matter.</p>
+"
+2973,92,2008-08-06T00:00:22Z,2970,3,"<p>With a six word character password, he may have been brute forced.  That is more likely than his ftp being intercepted, but it could be that too.</p>
+
+<p>Start with a stronger password. (8 characters is still fairly weak)</p>
+
+<p>See if this link to an internet <a href=""http://blog.modsecurity.org/2008/01/is-your-website.html"" rel=""nofollow"">security blog</a> is helpful.</p>"
+2975,204,2008-08-06T00:05:34Z,2900,6,"<blockquote>
+  <p>And if it matters at all, apache@localhost is not the name of the user account that I use to get into the database. I don't have any user accounts with the name apache in them at all for that matter.</p>
+</blockquote>
+
+<p>If it is saying 'apache@localhost' the username is not getting passed correctly to the MySQL connection. 'apache' is normally the user that runs the httpd process (at least on Redhat-based systems) and if no username is passed during the connection MySQL uses whomever is calling for the connection.</p>
+
+<p>If you do the connection right in your script, not in a called file, do you get the same error?</p>"
+2976,204,2008-08-06T00:16:07Z,2970,13,"<p>Try and gather as much information as you can. See if the host can give you a log showing all the FTP connections that were made to your account. You can use those to see if it was even an FTP connection that was used to make the change and possibly get an IP address.</p>
+
+<p>If you're using a prepacked software like Wordpress, Drupal, or anything else that you didn't code there may be vulnerabilities in upload code that allows for this sort of modification. If it is custom built, double check any places where you allow users to upload files or modify existing files.</p>
+
+<p>The second thing would be to take a dump of the site as-is and check everything for other modifications. It may just be one single modification they made, but if they got in via FTP who knows what else is up there.</p>
+
+<p>Revert your site back to a known good status and, if need be, upgrade to the latest version.</p>
+
+<p>There is a level of return you have to take into account too. Is the damage worth trying to track the person down or is this something where you just live and learn and use stronger passwords?</p>"
+2978,419,2008-08-06T00:24:23Z,2970,2,"<P>Is the site just plain static HTML? i.e. he hasn't managed to code himself an upload page that permits anyone driving by to upload compromised scripts/pages?</P>
+<P>Why not ask webhost4life if they have any FTP logs available and report the issue to them. You never know, they may be quite receptive and find out for you exactly what happened? </P>
+<P>I work for a shared hoster and we always welcome reports such as these and can usually pinpoint the exact vector of attack based and advise as to where the customer went wrong.</P>"
+3055,116,2008-08-06T03:31:22Z,2970,5,"<p>You mention your Dad was using a website publishing tool.</p>
+
+<p>If the publishing tool publishes from his computer to the server, it may be the case that his local files are clean, and that he just needs to republish to the server.</p>
+
+<p>He should see if there's a different login method to his server than plain FTP, though... that's not very secure because it sends his password as clear-text over the internet.</p>"
+3129,232,2008-08-06T06:39:12Z,2780,1,"<p>if you don't need to know this pre-render, you could always use the win32 method of getpixel, I believe. </p>
+
+<p>Note: typing on iPhone in the middle of Missouri with no inet access. Will look up real win32 example and see if there is a .net equivalent.</p>
+
+<p>In case anyone cares, and doesn't want to use the (excellent) answer posted above, you can get the color value of a pixel in .Net via this link <a href=""http://msdn.microsoft.com/en-us/library/system.drawing.bitmap.getpixel.aspx"" rel=""nofollow"">MSDN example</a></p>"
+3162,342,2008-08-06T08:28:14Z,3150,2,"<p>I use <a href=""https://github.com/unittest-cpp"" rel=""nofollow"">UnitTest++</a>.</p>
+
+<p>In the years since I made this post the source has moved from SourceForge to github.  Also the <a href=""https://github.com/unittest-cpp/unittest-cpp/wiki/Writing-More-Tests-With-the-Bowling-Game-Kata"" rel=""nofollow"">example tutorial</a> is now more agnostic - doesn't go into any configuration or project set up at all.</p>
+
+<p>I doubt it will still work for Visual Studio 6 as the project files are now created via CMake. If you still need the older version support you can get the last available version under the <a href=""https://github.com/unittest-cpp/unittest-cpp/tree/sourceforge"" rel=""nofollow"">SourceForge</a> branch.</p>
+"
+3188,91,2008-08-06T08:52:51Z,3180,35,"<p>I use it, especially since the hosted Version of FugBugz <a href=""http://stackoverflow.com/questions/3180/anyone-soloing-using-fogbugz#3581"">is free for up to 2 people</a>. I found it a lot nicer than paper as I'm working on multiple projects, and my paper tends to get rather messy once you start making annotations or if you want to re-organize and shuffle tasks around, mark them as complete only to see that they are not complete after all...</p>
+
+<p>Plus, the Visual Studio integration is really neat, something paper just cannot compete with. Also, if you lay the project to rest for 6 months and come back, all your tasks and notes are still there, whereas with paper you may need to search all the old documents and notes again, if you did not discard it.</p>
+
+<p>But that is just the point of view from someone who is not really good at staying organized :-) If you are a really tidy and organized person, paper may work better for you than it does for me.</p>
+
+<p>Bonus suggestion: Run Fogbugz on a second PC (or a small Laptop like the eeePC) so that you always have it at your fingertips. The main problem with Task tracking programs - be it FogBugz, Outlook, Excel or just notepad - is that they take up screen space, and my two monitors are usually full with Visual Studio, e-Mail, Web Browsers, some Notepads etc.</p>
+"
+3245,267,2008-08-06T10:05:25Z,3180,7,"<p>I use it as well and quite frankly wouldn't want to work without it.</p>
+
+<p>I've always had some kind of issue tracker available for the projects I work on and thus am quite used to updating it. With FB6 the process is now even better.</p>
+
+<p>Since FB also integrates with Subversion, the source control tool I use for my projects, the process is really good and I have two-way links between the two systems now. I can click on a case number in the Subversion logs and go to the case in FB, or see the revisions bound to a case inside FB.</p>"
+3274,493,2008-08-06T10:46:14Z,3180,14,"<P>When I was working for myself doing my consulting business I signed up for a hosted account and honestly I couldn't have done without it. </P>
+<P>What I liked most about it was it took 30 seconds to sign up for an account and I was then able to integrate source control using sourcegear vault (which is an excellent source control product and free for single developers) set up projects, clients, releases and versions and monitor my progress constantly.</P>
+<P>One thing that totally blew me away was that I ended up completely abandoning outlook for all work related correspondence. I could manage all my client interactions from within fogbugz and it all just worked amazingly well.</P>
+<P>In terms of overhead, one of the nice things you could do was turn anything into a case. Anything that came up in your mind while you were coding, you simply created a new email, sent it to fogbugz and it was instantly added as an item for review later.</P>
+<P>I would strongly recommend you get yourself one of the hosted accounts and give it a whirl</P>"
+3288,199,2008-08-06T11:12:48Z,3260,8,"<p>You could try signal averaging, i.e. for each point, average the value with the surrounding 3 or more points. If the noise blips are huge, then even this may not help.</p>
+
+<p>I realise that this was language agnostic, but guessing that you are using LabView, there are lots of pre-packaged signal processing VIs that come with LabView that you can use to do smoothing and noise reduction. The <a href=""http://forums.ni.com/"">NI forums</a> are a great place to get more specialised help on this sort of thing.</p>"
+3289,383,2008-08-06T11:17:29Z,3260,0,"<p>You could apply some <a href=""http://en.wikipedia.org/wiki/Standard_deviations"" rel=""nofollow"">Standard Devision</a> to your logic and take notice of peaks over x%.</p>"
+3299,488,2008-08-06T11:38:05Z,3260,2,"<p>I think you want to <a href=""http://en.wikipedia.org/wiki/Cross-correlation"" rel=""nofollow"">cross-correlate</a> your signal with an expected, exemplar signal. But, it has been such a long time since I studied signal processing and even then I didn't take much notice.</p>"
+3300,279,2008-08-06T11:38:37Z,3260,0,"<p>I don't know very much about instrumentation, so this might be totally impractical, but then again it might be a helpful different direction.  If you know how the readings can fail, and there is a certain interval between peaks given such failures, why not do gradient descent at each interval.  If the descent brings you back to an area you've searched before, you can abandon it.  Depending upon the shape of the sampled surface, this also might help you find peaks faster than search.</p>"
+3310,257,2008-08-06T12:10:55Z,3230,0,"You'd be looking to static link (as opposed to dynamically link)
+
+I'm not sure how many of the MS redistributables statically link in."
+3405,419,2008-08-06T13:57:28Z,3400,2,"<p>The wildcard character in SQL Server is the <code>%</code> sign and it works just fine, leading, trailing or otherwise.</p>
+
+<p>That said, if you're going to be doing any kind of serious full text searching then I'd consider utilising the Full Text Index capabilities. Using <code>%</code> and <code>_</code> wild cards will cause your database to take a serious performance hit.</p>
+"
+3413,383,2008-08-06T14:00:57Z,3400,0,"<pre><code>% Matches any number of characters<br>_ Matches a single character<br></code></pre>
+
+<p>I've never used Full-Text indexing but you can accomplish rather complex and fast search queries with simply using the build in T-SQL string functions.</p>"
+3422,60,2008-08-06T14:03:59Z,3400,3,"<p>One thing worth keeping in mind is that leading wildcard queries come at a significant performance premium, compared to other wildcard usages.</p>"
+3427,91,2008-08-06T14:07:59Z,3400,12,"<p>The problem with leading Wildcards: They cannot be indexed, hence you're doing a full table scan.</p>"
+3451,186,2008-08-06T14:24:29Z,3400,0,"<p>Using the '%' character I've searched our database using something like the following:</p>
+
+<pre><code>SELECT name FROM TblNames WHERE name LIKE '%overflow'
+</code></pre>
+
+<p>Using this form or query can be slow at times but we only use it for the occasional manual search.</p>"
+3454,277,2008-08-06T14:26:08Z,1970,5,"<p>I have only really used PL/pgSQL, but that was because I needed a few stored procedures relatively fast and didn't want to add extra modules to the server.</p>
+
+<p>Longer term, I would probably use PL/Perl or PL/Python, as I use perl for quick scripting and have been looking at python for a while now.</p>
+
+<p>One thing I have found is that there is a lack of good documentation for that on the PostgreSQL site. The manuals were thorough as a reference, but did not work well as a tutorial to help show people how it should be done.</p>
+
+<p>That, combined with a very good debugging environment, meant that my first experience of writing procedures involved looking at weird syntax errors for a long time.</p>
+
+<p>If someone knows of a good site with tutorials etc for PostgreSQL programming, I would love to get a link to it.</p>
+"
+3473,419,2008-08-06T14:39:09Z,3470,5,"<P>You should take a look at the UNPIVOT clause.</P>
+<P><STRONG>Update1</STRONG>: GateKiller, strangely enough I read an article (about something unrelated) about it this morning and I'm trying to jog my memory where I saw it again, had some decent looking examples too. It'll come back to me I'm sure.</P>
+<P><STRONG>Update2</STRONG>: Found it: <A href=""http://weblogs.sqlteam.com/jeffs/archive/2008/04/23/unpivot.aspx"" rel=""nofollow"">http://weblogs.sqlteam.com/jeffs/archive/2008/04/23/unpivot.aspx</A></P>"
+3475,91,2008-08-06T14:39:17Z,3470,0,"<p><a href=""http://msdn.microsoft.com/en-us/library/ms180026.aspx"" rel=""nofollow"">UNION</a> should be your friend:</p>
+
+<pre><code>SELECT Column1 FROM table WHERE idColumn = 1<br>UNION ALL<br>SELECT Column2 FROM table WHERE idColumn = 1<br>UNION ALL<br>SELECT Column3 FROM table WHERE idColumn = 1<br></code></pre>
+
+<p>but it can <a href=""http://blog.falafel.com/2006/01/20/TSQLTipAvoidUNION.aspx"" rel=""nofollow"">also be your foe</a> on large result sets.</p>"
+3478,507,2008-08-06T14:41:29Z,3470,0,"<P>If you have a fixed set of columns and you know what they are, you can basically do a series of subselects </P>
+<P><CODE>(SELECT Column1 AS ResultA FROM TableA) as R1</CODE> </P>
+<P>and join the subselects. All this in a single query.</P>"
+3511,91,2008-08-06T14:57:01Z,3510,21,"<p><a href=""http://www.easymaths.com/What_on_earth_is_Bodmas.htm""><a href=""http://www.easymaths.com/What_on_earth_is_Bodmas.htm"">http://www.easymaths.com/What_on_earth_is_Bodmas.htm</a></a>:</p>
+
+<blockquote>
+  <p>What do you think the answer to 2 + 3 x 5 is?</p>
+  
+  <p>Is it (2 + 3) x 5 = 5 x 5 = 25 ?</p>
+  
+  <p>or 2 + (3 x 5) = 2 + 15 = 17 ?</p>
+  
+  <p>BODMAS can come to the rescue and give us rules to follow so that we always get the right answer:</p>
+  
+  <p>(B)rackets (O)rder (D)ivision (M)ultiplication (A)ddition (S)ubtraction</p>
+  
+  <p>According to BODMAS, multiplication should always be done before addition, therefore 17 is actually the correct answer according to BODMAS and will also be the answer which your calculator will give if you type in 2 + 3 x 5 .</p>
+</blockquote>
+
+<p>Why it is useful in programming? No idea, but i assume it's because you can get rid of some brackets? I am a quite defensive programmer, so my lines can look like this:</p>
+
+<pre><code>result = (((i + 4) - (a + b)) * MAGIC_NUMBER) - ANOTHER_MAGIC_NUMBER;
+</code></pre>
+
+<p>with BODMAS you can make this a bit clearer:</p>
+
+<pre><code>result = (i + 4 - (a + b)) * MAGIC_NUMBER - ANOTHER_MAGIC_NUMBER;
+</code></pre>
+
+<p>I think i'd still use the first variant - more brackets, but that way i do not have to learn yet another rule and i run into less risk of forgetting it and causing those weird hard to debug errors?</p>
+
+<p>Just guessing at that part though.</p>
+
+<p>Mike Stone EDIT: Fixed math as Gaius points out</p>
+"
+3513,48,2008-08-06T14:59:36Z,3470,0,"<p>I'm not sure of the SQL Server syntax for this but in MySQL I would do</p>
+
+<pre><code>SELECT IDColumn, ( IF( Column1 &gt;= 3, 1, 0 ) + IF( Column2 &gt;= 3, 1, 0 ) + IF( Column3 &gt;= 3, 1, 0 ) + ... [snip ] )
+  AS NumberOfColumnsGreaterThanThree
+FROM TableA;
+</code></pre>
+
+<p>EDIT: A very (very) brief Google search tells me that the <code>CASE</code> statement does what I am doing with the <code>IF</code> statement in MySQL.  You may or may not get use out of <a href=""http://www.craigsmullins.com/ssu_0899.htm"" rel=""nofollow"">the Google result I found</a></p>
+
+<p>FURTHER EDIT: I should also point out that this isn't an answer to your question but an alternative solution to your actual problem.</p>
+"
+3515,448,2008-08-06T15:01:15Z,3510,8,"<p>Another version of this (in middle school) was ""Please Excuse My Dear Aunt Sally"".</p>
+
+<ul>
+<li>Parentheses</li>
+<li>Exponents</li>
+<li>Multiplication</li>
+<li>Division</li>
+<li>Addition</li>
+<li>Subtraction</li>
+</ul>
+
+<p>The mnemonic device was helpful in school, and still useful in programming today.</p>"
+3518,437,2008-08-06T15:03:35Z,3510,5,"<p>Order of operations in an expression, such as:</p>
+
+<pre><code>foo * (bar + baz^2 / foo)
+</code></pre>
+
+<ul>
+<li><strong>B</strong>rackets first</li>
+<li><strong>O</strong>rders (ie Powers and Square Roots, etc.)</li>
+<li><strong>D</strong>ivision and <strong>M</strong>ultiplication (left-to-right)</li>
+<li><strong>A</strong>ddition and <strong>S</strong>ubtraction (left-to-right)</li>
+</ul>
+
+<p>source: <a href=""http://www.mathsisfun.com/operation-order-bodmas.html"" rel=""nofollow"">http://www.mathsisfun.com/operation-order-bodmas.html</a></p>
+"
+3521,519,2008-08-06T15:08:11Z,3400,3,"<P>From SQL Server Books Online:</P>
+<BLOCKQUOTE>
+<P>To write full-text queries in Microsoft SQL Server 2005, you must learn how to use the CONTAINS and FREETEXT Transact-SQL predicates, and the CONTAINSTABLE and FREETEXTTABLE rowset-valued functions.</P></BLOCKQUOTE>
+<P>That means all of the queries written above with the % and _ are not valid full text queries.</P>
+<P>Here is a sample of what a query looks like when calling the CONTAINSTABLE function.</P>
+<BLOCKQUOTE>
+<P>SELECT RANK , * FROM TableName , CONTAINSTABLE (TableName, <EM>, ' ""</EM>WildCard"" ') searchTable WHERE [KEY] = TableName.pk ORDER BY searchTable.RANK DESC</P></BLOCKQUOTE>
+<P>In order for the CONTAINSTABLE function to know that I'm using a wildcard search, I have to wrap it in double quotes. I can use the wildcard character * at the beginning or ending. There are a lot of other things you can do when you're building the search string for the CONTAINSTABLE function. You can search for a word near another word, search for inflectional words (drive = drives, drove, driving, and driven), and search for synonym of another word (metal can have synonyms such as aluminum and steel).</P>
+<P>I just created a table, put a full text index on the table and did a couple of test searches and didn't have a problem, so wildcard searching works as intended.</P>
+<P>[Update]</P>
+<P>I see that you've updated your question and know that you need to use one of the functions.</P>
+<P>You can still search with the wildcard at the beginning, but if the word is not a full word following the wildcard, you have to add another wildcard at the end.</P>Example:  ""*ildcar"" will look for a single word as long as it ends with ""ildcar"".<BR><BR>Example:  ""*ildcar*"" will look for a single word with ""ildcar"" in the middle, which means it will match ""wildcard"".  [Just noticed that Markdown removed the wildcard characters from the beginning and ending of my quoted string here.]<BR>
+<P>[Update #2]</P>
+<P>Dave Ward - Using a wildcard with one of the functions shouldn't be a huge perf hit. If I created a search string with just ""*"", it will not return all rows, in my test case, it returned 0 records.</P>"
+3523,443,2008-08-06T15:08:52Z,3180,12,"<p>In addition to the benefits already mentioned, another nice feature of using FogBugz is BugzScout, which you can use to report errors from your app and log them into FogBugz automatically.  If you're a one person team, chances are there are some bugs in your code you've never seen during your own testing, so it's nice to have those bugs found ""in the wild"" automatically reported and logged for you.</p>"
+3525,37,2008-08-06T15:11:01Z,3510,4,"<p>When I learned this in grade school (in Canada) it was referred to as BEDMAS:</p>
+
+<p><strong>B</strong>rackets <br>
+<strong>E</strong>xponents <br>
+<strong>D</strong>ivision <br>
+<strong>M</strong>ultiplication <br>
+<strong>A</strong>ddition <br>
+<strong>S</strong>ubtraction</p>
+
+<p>Just for those from this part of the world...</p>"
+3527,121,2008-08-06T15:12:30Z,3510,1,"<p>I'm not really sure how applicable to programming the old BODMAS mnemonic is anyways.  There is no guarantee on order of operations between languages, and while many keep the standard operations in that order, not all do.  And then there are some languages where order of operations isn't really all that meaningful (Lisp dialects, for example).  In a way, you're probably better off for programming if you forget the standard order and either use parentheses for everything(eg (a*b) + c) or specifically learn the order for each language you work in.</p>"
+3533,26,2008-08-06T15:16:32Z,3470,1,"<p>I had to do this for a project before. One of the major difficulties I had was explaining what I was trying to do to other people. I spent a ton of time trying to do this in SQL, but I found the pivot function woefully inadequate. I do not remember the exact reason why it was, but it is too simplistic for most applications, and it isn't full implemented in MS SQL 2000. I wound up writing a pivot function in .NET. I'll post it here in hopes it helps someone, someday. </p>
+
+<pre><code> ''' &lt;summary&gt;<br>    ''' Pivots a data table from rows to columns<br>    ''' &lt;/summary&gt;<br>    ''' &lt;param name=""dtOriginal""&gt;The data table to be transformed&lt;/param&gt;<br>    ''' &lt;param name=""strKeyColumn""&gt;The name of the column that identifies each row&lt;/param&gt;<br>    ''' &lt;param name=""strNameColumn""&gt;The name of the column with the values to be transformed from rows to columns&lt;/param&gt;<br>    ''' &lt;param name=""strValueColumn""&gt;The name of the column with the values to pivot into the new columns&lt;/param&gt;<br>    ''' &lt;returns&gt;The transformed data table&lt;/returns&gt;<br>    ''' &lt;remarks&gt;&lt;/remarks&gt;<br>    Public Shared Function PivotTable(ByVal dtOriginal As DataTable, ByVal strKeyColumn As String, ByVal strNameColumn As String, ByVal strValueColumn As String) As DataTable<br>        Dim dtReturn As DataTable<br>        Dim drReturn As DataRow<br>        Dim strLastKey As String = String.Empty<br>        Dim blnFirstRow As Boolean = True<br><br>        ' copy the original data table and remove the name and value columns<br>        dtReturn = dtOriginal.Clone<br>        dtReturn.Columns.Remove(strNameColumn)<br>        dtReturn.Columns.Remove(strValueColumn)<br><br>        ' create a new row for the new data table<br>        drReturn = dtReturn.NewRow<br><br>        ' Fill the new data table with data from the original table<br>        For Each drOriginal As DataRow In dtOriginal.Rows<br><br>            ' Determine if a new row needs to be started<br>            If drOriginal(strKeyColumn).ToString &lt;&gt; strLastKey Then<br><br>                ' If this is not the first row, the previous row needs to be added to the new data table<br>                If Not blnFirstRow Then<br>                    dtReturn.Rows.Add(drReturn)<br>                End If<br><br>                blnFirstRow = False<br>                drReturn = dtReturn.NewRow<br><br>                ' Add all non-pivot column values to the new row<br>                For Each dcOriginal As DataColumn In dtOriginal.Columns<br>                    If dcOriginal.ColumnName &lt;&gt; strNameColumn AndAlso dcOriginal.ColumnName &lt;&gt; strValueColumn Then<br>                        drReturn(dcOriginal.ColumnName.ToLower) = drOriginal(dcOriginal.ColumnName.ToLower)<br>                    End If<br>                Next<br>                strLastKey = drOriginal(strKeyColumn).ToString<br>            End If<br><br>            ' Add new columns if needed and then assign the pivot values to the proper column<br>            If Not dtReturn.Columns.Contains(drOriginal(strNameColumn).ToString) Then<br>                dtReturn.Columns.Add(drOriginal(strNameColumn).ToString, drOriginal(strValueColumn).GetType)<br>            End If<br>            drReturn(drOriginal(strNameColumn).ToString) = drOriginal(strValueColumn)<br>        Next<br><br>        ' Add the final row to the new data table<br>        dtReturn.Rows.Add(drReturn)<br><br>        ' Return the transformed data table<br>        Return dtReturn<br>    End Function<br></code></pre>"
+3543,399,2008-08-06T15:24:00Z,3530,37,"<p>from <a href=""http://www.timocracy.com/articles/2008/02/21/calling-invoking-rails-rake-tasks-from-within-ruby-for-testing-try-2"">timocracy.com</a>:</p>
+
+<pre><code>require 'rake'
+require 'rake/rdoctask'
+"
