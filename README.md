@@ -22,7 +22,7 @@ There are two ways to run the engine. Preferably by importing Maven project to y
 ### Display help
 1. Run with **-h** switch for help:
 ```
-$ java -jar java -jar IR-2016_17-0.0.1-SNAPSHOT.jar -h
+$ java -jar IR-2016_17-0.0.1-SNAPSHOT.jar -h
 ```
 
 Option | Description | Default 
@@ -36,7 +36,7 @@ Option | Description | Default
 
 2. Processing *./stacksample* requires no arguments. Default stack directory is *./stacksample*
 ```
-$ java -jar java -jar IR-2016_17-0.0.1-SNAPSHOT.jar
+$ java -jar IR-2016_17-0.0.1-SNAPSHOT.jar
 ```
 
 Output of the progress is displayed while running.
