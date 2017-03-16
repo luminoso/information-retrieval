@@ -2,26 +2,32 @@
 
 Considering the increasing volume of unstructured data in the world, Information Retrieval (IR) (a sub-area of text mining) and Information Extraction (IE) are extremely important to deal efficiently with all that data. Industry, IR, companies, marketing, economics and many other sectors highly depend on the efficiency and robustness of these techniques and tools.
 
-Developed at [Aveiro University](https://www.ua.pt) this IR/IE engine deals with the overall processing of gathering, indexing and searching for relevant documents from huge collections of textual data so that extract of knowledge from unstructured existing data.
+Developed at [Aveiro University](https://www.ua.pt) this IR/IE engine deals with the overall process of gathering, indexing and searching for relevant documents from huge collections of textual data in order to extract knowledge from unstructured existing data.
 
 Features:
 
 * Components are developed in a modules
 * Memory adaptability to the host
-* Fully threaded
+* Multi threaded
 
-The engine is currently adapted to process a CSV corpus collected from StackOverflow questions and answers and a small stack is included in the repository for purpose of demonstration. Given the modularity of the engine it can be easily adapted to any other type of corpus stack. Full stack for further testing can be downloaded [here](ttps://meocloud.pt/link/8b405a8f-c5af-4898-b1a2-4b9af7e259e3/stacksample.zip/).
+The engine is currently adapted to process a CSV corpus collected from StackOverflow questions and answers, we include a small stack in the repository for  demonstration purposes. Given the modularity of the engine it can be easily adapted to any other type of corpus. For further testing, the full sized corpus can be downloaded [here](ttps://meocloud.pt/link/8b405a8f-c5af-4898-b1a2-4b9af7e259e3/stacksample.zip/).
 
+## How to compile
+This project uses [Apache Maven](https://maven.apache.org/) for build management, and so, you can run package everything into a jar by executing:
+```bash
+mvn clean package shade:shade
+```
+The shade goal is used to package a jar with every dependence needed. 
 
 ## How to run
 
-This project is built against [Apache Maven](https://maven.apache.org/) and minimal major java version required is 8. This engine is compatible with both Oracle Java 8 and OpenJDK 8 and it isn't backward compatible to Java 7.
+The engine requires Java 8 as it minimal major java version, it is compatible with both Oracle Java 8 and OpenJDK 8 but it isn't backward compatible with older Java versions.
 
-There are two ways to run the engine. Preferably by importing Maven project to your favorite IDE and running from it or use the provided compiled jar. For sake of simplicity examples are running with from the jar.
+There are several ways to run the engine. You can import it as a Maven project using your favorite IDE and run it from there, use the provided compiled jar, or use your own jar, packaged by you from the existing source code.
 
 ### Display help
 1. Run with **-h** switch for help:
-```
+```java
 $ java -jar IR-2016_17-0.0.1-SNAPSHOT.jar -h
 ```
 
@@ -35,7 +41,7 @@ Option | Description | Default
 ### Processing the given sample
 
 2. Processing *./stacksample* requires no arguments. Default stack directory is *./stacksample*
-```
+```java
 $ java -jar IR-2016_17-0.0.1-SNAPSHOT.jar
 ```
 
@@ -45,7 +51,7 @@ Output of the progress is displayed while running.
 
 3. Query processed stack for the words *buffer* and *color*.
 
-The interface for querying the database is shown. For example:
+The interface for querying the database is shown. Example:
 ```
 $ java -jar IR-2016_17-0.0.1-SNAPSHOT.jar -q
 Insert query (Control+c to exit): buffer color
@@ -86,7 +92,7 @@ Number of results to query (10):
 
 ## Project architecture
 
-The engine is a designed as a macro modules that interact with each other. Overall view is the following:
+The engine is designed as set of macro modules that interact with each other. Overall view is the following:
 
 ![Engine overview](https://raw.githubusercontent.com/luminoso/information-retrieval/master/doc/pipeline.png)
 
