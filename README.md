@@ -15,9 +15,9 @@ The engine is currently adapted to process a CSV corpus collected from StackOver
 ## How to compile
 This project uses [Apache Maven](https://maven.apache.org/) for build management, and so, you can run package everything into a jar by executing:
 ```bash
-mvn clean package shade:shade
+mvn clean package
 ```
-The shade goal is used to package a jar with every dependence needed. 
+The shade goal is included in the pom file to package a jar with every dependence needed. 
 
 ## How to run
 
