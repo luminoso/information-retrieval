@@ -5,10 +5,9 @@ Considering the increasing volume of unstructured data in the world, Information
 Developed at [Aveiro University](https://www.ua.pt) this IR/IE engine deals with the overall process of gathering, indexing and searching for relevant documents from huge collections of textual data in order to extract knowledge from unstructured existing data.
 
 Features:
-
-* Components are developed in a modules
-* Memory adaptability to the host
-* Multi threaded
+* Components are developed in a modules;
+* Memory adaptability to the host;
+* Multi threaded.
 
 The engine is currently adapted to process a CSV corpus collected from StackOverflow questions and answers, we include a small stack in the repository for  demonstration purposes. Given the modularity of the engine it can be easily adapted to any other type of corpus. For further testing, the full sized corpus can be downloaded [here](ttps://meocloud.pt/link/8b405a8f-c5af-4898-b1a2-4b9af7e259e3/stacksample.zip/).
 
