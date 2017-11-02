@@ -2,7 +2,7 @@
 
 Considering the increasing volume of unstructured data in the world, Information Retrieval (IR) (a sub-area of text mining) and Information Extraction (IE) are extremely important to deal efficiently with all that data. Industry, IR, companies, marketing, economics and many other sectors highly depend on the efficiency and robustness of these techniques and tools.
 
-Developed at [Aveiro University](https://www.ua.pt) this IR/IE engine deals with the overall process of gathering, indexing and searching for relevant documents from huge collections of textual data in order to extract knowledge from unstructured existing data.
+Developed at [Aveiro University](https://www.ua.pt) by @luminoso and @ruifpedro, this IR/IE engine deals with the overall process of gathering, indexing and searching for relevant documents from huge collections of textual data in order to extract knowledge from unstructured existing data.
 
 Features:
 * Components are developed in a modules;
